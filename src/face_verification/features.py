@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import warnings
+
 import numpy as np
 from sklearn.decomposition import PCA
 
@@ -45,7 +47,13 @@ def fit_pca(
     return model
 
 
-def fit_pca_components(train_images: np.ndarray, *, n_components: int) -> PCA:
+def fit_pca_components(
+    train_images: np.ndarray,
+    *,
+    n_components: int,
+    svd_solver: str = "full",
+    random_state: int | None = None,
+) -> PCA:
     """Fit a fixed number of PCA components on explicitly supplied images."""
 
     if isinstance(n_components, bool) or not isinstance(n_components, (int, np.integer)):
@@ -55,8 +63,23 @@ def fit_pca_components(train_images: np.ndarray, *, n_components: int) -> PCA:
     if not 1 <= int(n_components) <= maximum:
         raise ValueError(f"n_components must lie between 1 and {maximum}")
 
-    model = PCA(n_components=int(n_components), svd_solver="full")
-    model.fit(train_matrix)
+    if svd_solver not in {"full", "randomized"}:
+        raise ValueError("svd_solver must be 'full' or 'randomized'")
+    model = PCA(
+        n_components=int(n_components),
+        svd_solver=svd_solver,
+        random_state=random_state,
+    )
+    with warnings.catch_warnings():
+        warnings.filterwarnings(
+            "ignore",
+            category=RuntimeWarning,
+            message=".*(overflow|divide by zero|invalid value).*matmul.*",
+        )
+        model.fit(train_matrix)
+    learned_arrays = (model.mean_, model.components_, model.explained_variance_)
+    if not all(np.all(np.isfinite(values)) for values in learned_arrays):
+        raise FloatingPointError("PCA fitting produced non-finite values")
     return model
 
 

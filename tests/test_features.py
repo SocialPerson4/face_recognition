@@ -75,6 +75,26 @@ class ImageFeatureTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             fit_pca_components(np.ones((3, 2)), n_components=4)
 
+    def test_fixed_pca_supports_deterministic_randomized_solver(self) -> None:
+        images = np.random.default_rng(7).normal(size=(12, 10))
+        first = fit_pca_components(
+            images, n_components=3, svd_solver="randomized", random_state=7
+        )
+        second = fit_pca_components(
+            images, n_components=3, svd_solver="randomized", random_state=7
+        )
+        np.testing.assert_allclose(first.components_, second.components_)
+
+    def test_fixed_pca_supports_deterministic_randomized_solver(self) -> None:
+        images = np.arange(120, dtype=np.float64).reshape(12, 10)
+        first = fit_pca_components(
+            images, n_components=3, svd_solver="randomized", random_state=7
+        )
+        second = fit_pca_components(
+            images, n_components=3, svd_solver="randomized", random_state=7
+        )
+        np.testing.assert_allclose(first.components_, second.components_)
+
 
 if __name__ == "__main__":
     unittest.main()

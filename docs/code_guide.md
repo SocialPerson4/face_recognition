@@ -603,3 +603,27 @@ PYTHONPATH=src .venv/bin/python scripts/search_orl_classifier_hyperparameters.py
 脚本只读取协议分析JSON，生成 `lfw_protocol_design.png/svg`。左侧柱状图展示两个开发文件与正式十折的身份和图片重叠；右侧用颜色编码本项目冻结的8折训练、1折阈值校准、1折测试轮转。图中不包含模型性能。
 
 新增测试检查十折行号映射，以及身份重叠、图片重叠和完整配对重叠能够被分别识别。项目当前共39项测试。
+
+## 四十五 LFW预处理与共享协议模块
+
+`load_lfw_preprocessed_images(...)` 位于 `data.py`，严格检查输入为250×250，依次执行灰度转换、固定中心裁剪 `(78,70,172,195)`、双线性缩放至宽47高62，并归一化到0至1。返回顺序与输入相对路径完全一致。
+
+LFW配对解析已从实验脚本移动到 `lfw_protocol.py`，使协议审计和模型实验调用同一份 `ProtocolPair`、`parse_protocol(...)` 与集合逻辑，避免两套解析规则逐渐分叉。
+
+`fit_pca_components(...)` 保持ORL默认完整SVD不变，同时允许LFW显式使用固定随机种子的随机化SVD。随机化算法只近似求前80个方向，避免每折计算完整的2914维分解；拟合后仍强制检查均值、主成分和解释方差均为有限数。
+
+## 四十六 `scripts/run_lfw_pca_distance_baseline.py`
+
+`fold_roles(...)` 将测试折的下一折固定为校准折，其余8折训练。程序一次加载正式协议引用的7,701张预处理图片；每轮只用训练折约6,100张图片拟合80维PCA，只变换校准和测试图片。
+
+校准分数由 `select_threshold_at_fmr(...)` 选择FMR不超过1%的最低FNMR阈值；该阈值原样作用于测试折。测试折另行计算EER和AUC用于无固定阈值的整体区分能力。输出：
+
+- `summary.json`：完整协议、预处理、逐折结果及均值、样本标准差和范围。
+- `fold_results.csv`：10行主要折指标和错误计数。
+- `test_scores.csv`：6,000条测试配对的分数、所在折阈值及接受结果。
+
+## 四十七 `scripts/plot_lfw_pca_distance_baseline.py`
+
+脚本只读取保存结果。`lfw_pca_distance_results` 展示十折EER、ORL对照和低FMR工作点错误；`lfw_threshold_margin_distribution` 将不同折分数减去各自校准阈值，使0统一表示接受边界，再展示同人与异人的分布交叠。
+
+新增测试覆盖LFW预处理尺寸检查、8/1/1折轮转、样本标准差和随机化PCA可复现性。项目当前共45项测试。

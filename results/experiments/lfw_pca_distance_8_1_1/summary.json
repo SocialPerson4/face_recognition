@@ -1,0 +1,558 @@
+{
+  "artifact_type": "LFW frozen PCA-distance 8/1/1 transfer baseline",
+  "dataset": "LFW Funneled",
+  "protocol": "10 rotating rounds: 8 train folds, 1 threshold-calibration fold, 1 test fold",
+  "data_isolation": "zero identity, image, and exact-pair overlap across official folds",
+  "development_files_used": false,
+  "preprocessing": {
+    "color": "grayscale",
+    "crop_box_left_top_right_bottom": [
+      78,
+      70,
+      172,
+      195
+    ],
+    "output_width_height": [
+      47,
+      62
+    ],
+    "pixel_range": [
+      0.0,
+      1.0
+    ]
+  },
+  "model": {
+    "family": "negative Euclidean distance in PCA space",
+    "pca_components": 80,
+    "pca_solver": "randomized",
+    "pca_random_state": 20260913,
+    "pca_whiten": false
+  },
+  "target_fmr": 0.01,
+  "unique_official_images_loaded": 7701,
+  "fold_results": [
+    {
+      "test_fold": 1,
+      "calibration_fold": 2,
+      "train_folds": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "train_pair_count": 4800,
+      "train_unique_image_count": 6118,
+      "pca_explained_variance": 0.9003638618821539,
+      "calibration_pair_count": 600,
+      "calibration_threshold_selection": {
+        "target_fmr": 0.01,
+        "rates": {
+          "threshold": -6.6747846019506785,
+          "true_accepts": 29,
+          "false_rejects": 271,
+          "false_accepts": 2,
+          "true_rejects": 298,
+          "fmr": 0.006666666666666667,
+          "fnmr": 0.9033333333333333,
+          "true_accept_rate": 0.09666666666666666,
+          "accuracy": 0.545
+        }
+      },
+      "test_pair_count": 600,
+      "test_eer": {
+        "eer": 0.3233333333333333,
+        "threshold": -10.75031180177224
+      },
+      "test_roc_auc": 0.7289666666666667,
+      "test_rates_at_calibration_threshold": {
+        "threshold": -6.6747846019506785,
+        "true_accepts": 24,
+        "false_rejects": 276,
+        "false_accepts": 7,
+        "true_rejects": 293,
+        "fmr": 0.023333333333333334,
+        "fnmr": 0.92,
+        "true_accept_rate": 0.08,
+        "accuracy": 0.5283333333333333
+      }
+    },
+    {
+      "test_fold": 2,
+      "calibration_fold": 3,
+      "train_folds": [
+        1,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "train_pair_count": 4800,
+      "train_unique_image_count": 6188,
+      "pca_explained_variance": 0.9008095025852735,
+      "calibration_pair_count": 600,
+      "calibration_threshold_selection": {
+        "target_fmr": 0.01,
+        "rates": {
+          "threshold": -5.984157748544181,
+          "true_accepts": 18,
+          "false_rejects": 282,
+          "false_accepts": 3,
+          "true_rejects": 297,
+          "fmr": 0.01,
+          "fnmr": 0.94,
+          "true_accept_rate": 0.06,
+          "accuracy": 0.525
+        }
+      },
+      "test_pair_count": 600,
+      "test_eer": {
+        "eer": 0.41,
+        "threshold": -10.634112864180208
+      },
+      "test_roc_auc": 0.6376999999999999,
+      "test_rates_at_calibration_threshold": {
+        "threshold": -5.984157748544181,
+        "true_accepts": 13,
+        "false_rejects": 287,
+        "false_accepts": 1,
+        "true_rejects": 299,
+        "fmr": 0.0033333333333333335,
+        "fnmr": 0.9566666666666667,
+        "true_accept_rate": 0.043333333333333335,
+        "accuracy": 0.52
+      }
+    },
+    {
+      "test_fold": 3,
+      "calibration_fold": 4,
+      "train_folds": [
+        1,
+        2,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "train_pair_count": 4800,
+      "train_unique_image_count": 6210,
+      "pca_explained_variance": 0.9005462148896911,
+      "calibration_pair_count": 600,
+      "calibration_threshold_selection": {
+        "target_fmr": 0.01,
+        "rates": {
+          "threshold": -6.4261113156405685,
+          "true_accepts": 36,
+          "false_rejects": 264,
+          "false_accepts": 3,
+          "true_rejects": 297,
+          "fmr": 0.01,
+          "fnmr": 0.88,
+          "true_accept_rate": 0.12,
+          "accuracy": 0.555
+        }
+      },
+      "test_pair_count": 600,
+      "test_eer": {
+        "eer": 0.4,
+        "threshold": -10.635904879770546
+      },
+      "test_roc_auc": 0.6397666666666667,
+      "test_rates_at_calibration_threshold": {
+        "threshold": -6.4261113156405685,
+        "true_accepts": 22,
+        "false_rejects": 278,
+        "false_accepts": 6,
+        "true_rejects": 294,
+        "fmr": 0.02,
+        "fnmr": 0.9266666666666666,
+        "true_accept_rate": 0.07333333333333333,
+        "accuracy": 0.5266666666666666
+      }
+    },
+    {
+      "test_fold": 4,
+      "calibration_fold": 5,
+      "train_folds": [
+        1,
+        2,
+        3,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "train_pair_count": 4800,
+      "train_unique_image_count": 6210,
+      "pca_explained_variance": 0.900648070666833,
+      "calibration_pair_count": 600,
+      "calibration_threshold_selection": {
+        "target_fmr": 0.01,
+        "rates": {
+          "threshold": -5.9870883868574944,
+          "true_accepts": 18,
+          "false_rejects": 282,
+          "false_accepts": 3,
+          "true_rejects": 297,
+          "fmr": 0.01,
+          "fnmr": 0.94,
+          "true_accept_rate": 0.06,
+          "accuracy": 0.525
+        }
+      },
+      "test_pair_count": 600,
+      "test_eer": {
+        "eer": 0.3566666666666667,
+        "threshold": -10.703298232800485
+      },
+      "test_roc_auc": 0.7039777777777777,
+      "test_rates_at_calibration_threshold": {
+        "threshold": -5.9870883868574944,
+        "true_accepts": 24,
+        "false_rejects": 276,
+        "false_accepts": 1,
+        "true_rejects": 299,
+        "fmr": 0.0033333333333333335,
+        "fnmr": 0.92,
+        "true_accept_rate": 0.08,
+        "accuracy": 0.5383333333333333
+      }
+    },
+    {
+      "test_fold": 5,
+      "calibration_fold": 6,
+      "train_folds": [
+        1,
+        2,
+        3,
+        4,
+        7,
+        8,
+        9,
+        10
+      ],
+      "train_pair_count": 4800,
+      "train_unique_image_count": 6221,
+      "pca_explained_variance": 0.9008215000249903,
+      "calibration_pair_count": 600,
+      "calibration_threshold_selection": {
+        "target_fmr": 0.01,
+        "rates": {
+          "threshold": -5.979641801339976,
+          "true_accepts": 18,
+          "false_rejects": 282,
+          "false_accepts": 3,
+          "true_rejects": 297,
+          "fmr": 0.01,
+          "fnmr": 0.94,
+          "true_accept_rate": 0.06,
+          "accuracy": 0.525
+        }
+      },
+      "test_pair_count": 600,
+      "test_eer": {
+        "eer": 0.36333333333333334,
+        "threshold": -10.603561935091083
+      },
+      "test_roc_auc": 0.6800777777777778,
+      "test_rates_at_calibration_threshold": {
+        "threshold": -5.979641801339976,
+        "true_accepts": 17,
+        "false_rejects": 283,
+        "false_accepts": 3,
+        "true_rejects": 297,
+        "fmr": 0.01,
+        "fnmr": 0.9433333333333334,
+        "true_accept_rate": 0.056666666666666664,
+        "accuracy": 0.5233333333333333
+      }
+    },
+    {
+      "test_fold": 6,
+      "calibration_fold": 7,
+      "train_folds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        8,
+        9,
+        10
+      ],
+      "train_pair_count": 4800,
+      "train_unique_image_count": 6145,
+      "pca_explained_variance": 0.9005933617015373,
+      "calibration_pair_count": 600,
+      "calibration_threshold_selection": {
+        "target_fmr": 0.01,
+        "rates": {
+          "threshold": -6.055434685141386,
+          "true_accepts": 20,
+          "false_rejects": 280,
+          "false_accepts": 3,
+          "true_rejects": 297,
+          "fmr": 0.01,
+          "fnmr": 0.9333333333333333,
+          "true_accept_rate": 0.06666666666666667,
+          "accuracy": 0.5283333333333333
+        }
+      },
+      "test_pair_count": 600,
+      "test_eer": {
+        "eer": 0.37333333333333335,
+        "threshold": -10.726990057029402
+      },
+      "test_roc_auc": 0.6904777777777777,
+      "test_rates_at_calibration_threshold": {
+        "threshold": -6.055434685141386,
+        "true_accepts": 19,
+        "false_rejects": 281,
+        "false_accepts": 4,
+        "true_rejects": 296,
+        "fmr": 0.013333333333333334,
+        "fnmr": 0.9366666666666666,
+        "true_accept_rate": 0.06333333333333334,
+        "accuracy": 0.525
+      }
+    },
+    {
+      "test_fold": 7,
+      "calibration_fold": 8,
+      "train_folds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        9,
+        10
+      ],
+      "train_pair_count": 4800,
+      "train_unique_image_count": 6103,
+      "pca_explained_variance": 0.9007872978346128,
+      "calibration_pair_count": 600,
+      "calibration_threshold_selection": {
+        "target_fmr": 0.01,
+        "rates": {
+          "threshold": -6.046261503964443,
+          "true_accepts": 13,
+          "false_rejects": 287,
+          "false_accepts": 3,
+          "true_rejects": 297,
+          "fmr": 0.01,
+          "fnmr": 0.9566666666666667,
+          "true_accept_rate": 0.043333333333333335,
+          "accuracy": 0.5166666666666667
+        }
+      },
+      "test_pair_count": 600,
+      "test_eer": {
+        "eer": 0.4,
+        "threshold": -10.107736467537611
+      },
+      "test_roc_auc": 0.6412111111111112,
+      "test_rates_at_calibration_threshold": {
+        "threshold": -6.046261503964443,
+        "true_accepts": 20,
+        "false_rejects": 280,
+        "false_accepts": 2,
+        "true_rejects": 298,
+        "fmr": 0.006666666666666667,
+        "fnmr": 0.9333333333333333,
+        "true_accept_rate": 0.06666666666666667,
+        "accuracy": 0.53
+      }
+    },
+    {
+      "test_fold": 8,
+      "calibration_fold": 9,
+      "train_folds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        10
+      ],
+      "train_pair_count": 4800,
+      "train_unique_image_count": 6152,
+      "pca_explained_variance": 0.9005381090960464,
+      "calibration_pair_count": 600,
+      "calibration_threshold_selection": {
+        "target_fmr": 0.01,
+        "rates": {
+          "threshold": -6.111879111826448,
+          "true_accepts": 25,
+          "false_rejects": 275,
+          "false_accepts": 3,
+          "true_rejects": 297,
+          "fmr": 0.01,
+          "fnmr": 0.9166666666666666,
+          "true_accept_rate": 0.08333333333333333,
+          "accuracy": 0.5366666666666666
+        }
+      },
+      "test_pair_count": 600,
+      "test_eer": {
+        "eer": 0.38333333333333336,
+        "threshold": -10.673118090251071
+      },
+      "test_roc_auc": 0.6670444444444444,
+      "test_rates_at_calibration_threshold": {
+        "threshold": -6.111879111826448,
+        "true_accepts": 13,
+        "false_rejects": 287,
+        "false_accepts": 3,
+        "true_rejects": 297,
+        "fmr": 0.01,
+        "fnmr": 0.9566666666666667,
+        "true_accept_rate": 0.043333333333333335,
+        "accuracy": 0.5166666666666667
+      }
+    },
+    {
+      "test_fold": 9,
+      "calibration_fold": 10,
+      "train_folds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "train_pair_count": 4800,
+      "train_unique_image_count": 6152,
+      "pca_explained_variance": 0.9000807307770676,
+      "calibration_pair_count": 600,
+      "calibration_threshold_selection": {
+        "target_fmr": 0.01,
+        "rates": {
+          "threshold": -6.475702054891866,
+          "true_accepts": 28,
+          "false_rejects": 272,
+          "false_accepts": 3,
+          "true_rejects": 297,
+          "fmr": 0.01,
+          "fnmr": 0.9066666666666666,
+          "true_accept_rate": 0.09333333333333334,
+          "accuracy": 0.5416666666666666
+        }
+      },
+      "test_pair_count": 600,
+      "test_eer": {
+        "eer": 0.36666666666666664,
+        "threshold": -10.361169537446902
+      },
+      "test_roc_auc": 0.6784333333333332,
+      "test_rates_at_calibration_threshold": {
+        "threshold": -6.475702054891866,
+        "true_accepts": 37,
+        "false_rejects": 263,
+        "false_accepts": 6,
+        "true_rejects": 294,
+        "fmr": 0.02,
+        "fnmr": 0.8766666666666667,
+        "true_accept_rate": 0.12333333333333334,
+        "accuracy": 0.5516666666666666
+      }
+    },
+    {
+      "test_fold": 10,
+      "calibration_fold": 1,
+      "train_folds": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "train_pair_count": 4800,
+      "train_unique_image_count": 6109,
+      "pca_explained_variance": 0.8999733110264901,
+      "calibration_pair_count": 600,
+      "calibration_threshold_selection": {
+        "target_fmr": 0.01,
+        "rates": {
+          "threshold": -6.4176953191821,
+          "true_accepts": 20,
+          "false_rejects": 280,
+          "false_accepts": 3,
+          "true_rejects": 297,
+          "fmr": 0.01,
+          "fnmr": 0.9333333333333333,
+          "true_accept_rate": 0.06666666666666667,
+          "accuracy": 0.5283333333333333
+        }
+      },
+      "test_pair_count": 600,
+      "test_eer": {
+        "eer": 0.36,
+        "threshold": -10.504488846080458
+      },
+      "test_roc_auc": 0.6734111111111111,
+      "test_rates_at_calibration_threshold": {
+        "threshold": -6.4176953191821,
+        "true_accepts": 27,
+        "false_rejects": 273,
+        "false_accepts": 3,
+        "true_rejects": 297,
+        "fmr": 0.01,
+        "fnmr": 0.91,
+        "true_accept_rate": 0.09,
+        "accuracy": 0.54
+      }
+    }
+  ],
+  "aggregate_test_metrics": {
+    "eer": {
+      "mean": 0.37366666666666665,
+      "standard_deviation": 0.025745669658659882,
+      "minimum": 0.3233333333333333,
+      "maximum": 0.41
+    },
+    "roc_auc": {
+      "mean": 0.6741066666666666,
+      "standard_deviation": 0.0295549351090543,
+      "minimum": 0.6376999999999999,
+      "maximum": 0.7289666666666667
+    },
+    "fmr": {
+      "mean": 0.012,
+      "standard_deviation": 0.007062332703142535,
+      "minimum": 0.0033333333333333335,
+      "maximum": 0.023333333333333334
+    },
+    "fnmr": {
+      "mean": 0.9280000000000002,
+      "standard_deviation": 0.023737244787958356,
+      "minimum": 0.8766666666666667,
+      "maximum": 0.9566666666666667
+    },
+    "accuracy": {
+      "mean": 0.53,
+      "standard_deviation": 0.010540925533894588,
+      "minimum": 0.5166666666666667,
+      "maximum": 0.5516666666666666
+    }
+  },
+  "interpretation_status": "external transfer result; no LFW hyperparameter search"
+}

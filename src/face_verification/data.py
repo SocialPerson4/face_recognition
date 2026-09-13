@@ -9,6 +9,10 @@ import numpy as np
 from PIL import Image
 
 
+LFW_CROP_BOX = (78, 70, 172, 195)
+LFW_OUTPUT_SIZE = (47, 62)
+
+
 @dataclass(frozen=True)
 class ORLDataset:
     """In-memory representation of the ORL face dataset."""
@@ -97,3 +101,34 @@ def load_orl(root: str | Path, *, strict: bool = True) -> ORLDataset:
         raise ValueError(f"expected ORL shape (400, 112, 92), found {dataset.images.shape}")
     return dataset
 
+
+def load_lfw_preprocessed_images(
+    image_root: str | Path, relative_paths: list[str] | tuple[str, ...]
+) -> np.ndarray:
+    """Load frozen grayscale, center-cropped, resized LFW inputs in path order."""
+
+    root = Path(image_root)
+    if not root.is_dir():
+        raise FileNotFoundError(f"LFW image directory does not exist: {root}")
+    if not relative_paths:
+        raise ValueError("relative_paths must not be empty")
+
+    resampling = getattr(Image, "Resampling", Image).BILINEAR
+    images: list[np.ndarray] = []
+    for relative_path in relative_paths:
+        path = root / relative_path
+        if not path.is_file():
+            raise FileNotFoundError(f"missing LFW image: {path}")
+        with Image.open(path) as image:
+            if image.size != (250, 250):
+                raise ValueError(
+                    f"expected 250x250 LFW image at {path}, found {image.size}"
+                )
+            processed = (
+                image.convert("L")
+                .crop(LFW_CROP_BOX)
+                .resize(LFW_OUTPUT_SIZE, resample=resampling)
+            )
+            array = np.asarray(processed, dtype=np.float32) / 255.0
+        images.append(array)
+    return np.stack(images)

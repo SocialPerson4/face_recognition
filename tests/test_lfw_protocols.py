@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from scripts.analyze_lfw_protocols import overlap, parse_protocol, summarize_protocol
+from face_verification.lfw_protocol import overlap, parse_protocol, summarize_protocol
 
 
 def test_parse_ten_fold_protocol_assigns_rows_to_folds(tmp_path: Path) -> None:

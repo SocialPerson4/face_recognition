@@ -522,3 +522,23 @@ PYTHONPATH=src .venv/bin/python scripts/search_orl_classifier_hyperparameters.py
 `check_classifier_search_overlap.py` 的两个输入现在使用通用名称 `--reference` 和 `--candidate`，同时保留旧参数名作为兼容别名。本轮自动审计M3E与M3F共有的4个配置，8项指标全部精确一致。
 
 绘图脚本支持 `sentinel` 标题，并在两条线完全重合时明确标注，避免读者误以为只画了一种模型。新增网格测试后项目当前共29项测试通过。
+
+## 三十六 `scripts/evaluate_orl_frozen_candidates.py`
+
+脚本把M3冻结的四套配置写成 `FROZEN_CONFIGURATIONS` 常量。它重新取得固定身份划分，只将24个训练身份交给PCA和分类器；80张验证图片只接受已经拟合好的变换，测试图片不拟合、不变换、不配对、不评分。
+
+流程为：训练图片拟合80维PCA；训练与验证分别生成固定平衡配对；距离模型计算负欧氏距离；三个分类器用训练配对的绝对差拟合并对验证配对评分；最后按EER、AUC和预注册复杂度顺序排名。
+
+输出目录 `results/experiments/orl_frozen_validation_seed_20260913/` 包含：
+
+- `summary.json`：冻结参数、身份、配对种子、四模型指标、开发排名和验证阈值。
+- `train_scores.csv`：2160条训练配对及四模型分数。
+- `validation_scores.csv`：720条验证配对及四模型分数。
+
+测试检查四个模型都有冻结配置，并锁定三个分类器的C和gamma。项目当前共31项测试通过。
+
+## 三十七 `scripts/plot_orl_frozen_validation.py`
+
+脚本只读取M4保存的JSON生成PNG和SVG，不重新训练。左图展示验证EER与AUC，星号表示按主规则得到的开发候选；右图展示FMR不超过1%时的FNMR，星号表示严格门禁工作点下错误拒绝最低者。
+
+图底明确披露验证身份早期曾在M2B距离实验中查看，但未进入M3调参；同时标注最终8个测试身份未触碰。

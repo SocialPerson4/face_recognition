@@ -1,0 +1,44 @@
+{
+  "artifact_type": "classifier search overlap reproducibility audit",
+  "coarse_result": "results/experiments/orl_classifier_search_k80_seed_20260913/summary.json",
+  "boundary_result": "results/experiments/orl_classifier_boundary_k80_seed_20260913/summary.json",
+  "compared_metric_fields": [
+    "mean_train_eer",
+    "mean_validation_eer",
+    "std_validation_eer",
+    "mean_generalization_gap",
+    "mean_validation_roc_auc",
+    "std_validation_roc_auc",
+    "mean_fnmr_at_target_fmr",
+    "std_fnmr_at_target_fmr"
+  ],
+  "shared_configuration_count": 5,
+  "all_exact": true,
+  "comparisons": [
+    {
+      "config_id": "linear_svm__c_0.001",
+      "exact_match": true,
+      "differing_fields": []
+    },
+    {
+      "config_id": "logistic_regression__c_0.001",
+      "exact_match": true,
+      "differing_fields": []
+    },
+    {
+      "config_id": "rbf_svm__c_0.001__gamma_0.001",
+      "exact_match": true,
+      "differing_fields": []
+    },
+    {
+      "config_id": "rbf_svm__c_0.001__gamma_0.01",
+      "exact_match": true,
+      "differing_fields": []
+    },
+    {
+      "config_id": "rbf_svm__c_0.001__gamma_0.1",
+      "exact_match": true,
+      "differing_fields": []
+    }
+  ]
+}

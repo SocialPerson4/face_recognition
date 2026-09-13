@@ -31,19 +31,18 @@ DEFAULT_K = 80
 INNER_FOLD_SEED_OFFSET = 201
 VALIDATION_PAIR_SEED_OFFSET = 301
 TRAIN_PAIR_SEED_OFFSET = 401
-C_VALUES = (0.001, 0.01, 0.1, 1.0, 10.0, 100.0)
-GAMMA_VALUES = (0.0001, 0.001, 0.01, 0.1, 1.0)
+COARSE_C_VALUES = (0.001, 0.01, 0.1, 1.0, 10.0, 100.0)
+COARSE_GAMMA_VALUES = (0.0001, 0.001, 0.01, 0.1, 1.0)
+BOUNDARY_C_VALUES = (0.00001, 0.00003, 0.0001, 0.0003, 0.001, 0.003)
+BOUNDARY_GAMMA_VALUES = (0.001, 0.003, 0.01, 0.03, 0.1)
 FAMILIES = ("logistic_regression", "linear_svm", "rbf_svm")
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--data-dir", type=Path, default=Path("data/raw/orl"))
-    parser.add_argument(
-        "--output-dir",
-        type=Path,
-        default=Path("results/experiments/orl_classifier_search_k80_seed_20260913"),
-    )
+    parser.add_argument("--stage", choices=("coarse", "boundary"), default="coarse")
+    parser.add_argument("--output-dir", type=Path)
     parser.add_argument("--seed", type=int, default=DEFAULT_SEED)
     parser.add_argument("--folds", type=int, default=5)
     parser.add_argument("--k", type=int, default=DEFAULT_K)
@@ -51,10 +50,12 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def configurations() -> tuple[dict[str, object], ...]:
+def configurations(
+    c_values: tuple[float, ...], gamma_values: tuple[float, ...]
+) -> tuple[dict[str, object], ...]:
     configs: list[dict[str, object]] = []
     for family in ("logistic_regression", "linear_svm"):
-        for c in C_VALUES:
+        for c in c_values:
             configs.append(
                 {
                     "config_id": f"{family}__c_{c:g}",
@@ -63,8 +64,8 @@ def configurations() -> tuple[dict[str, object], ...]:
                     "gamma": None,
                 }
             )
-    for c in C_VALUES:
-        for gamma in GAMMA_VALUES:
+    for c in c_values:
+        for gamma in gamma_values:
             configs.append(
                 {
                     "config_id": f"rbf_svm__c_{c:g}__gamma_{gamma:g}",
@@ -108,7 +109,20 @@ def sample_std(values: list[float]) -> float:
 
 def main() -> None:
     args = parse_args()
-    configs = configurations()
+    if args.stage == "boundary":
+        c_values = BOUNDARY_C_VALUES
+        gamma_values = BOUNDARY_GAMMA_VALUES
+        default_output_dir = Path(
+            "results/experiments/orl_classifier_boundary_k80_seed_20260913"
+        )
+    else:
+        c_values = COARSE_C_VALUES
+        gamma_values = COARSE_GAMMA_VALUES
+        default_output_dir = Path(
+            "results/experiments/orl_classifier_search_k80_seed_20260913"
+        )
+    output_dir = args.output_dir or default_output_dir
+    configs = configurations(c_values, gamma_values)
     dataset = load_orl(args.data_dir)
     outer = split_by_identity(dataset.labels, seed=args.seed)
     inner_seed = args.seed + INNER_FOLD_SEED_OFFSET
@@ -249,7 +263,8 @@ def main() -> None:
         }
 
     summary = {
-        "artifact_type": "ORL classifier hyperparameter coarse-search results",
+        "artifact_type": f"ORL classifier hyperparameter {args.stage}-search results",
+        "search_stage": args.stage,
         "dataset": "ORL Database of Faces",
         "outer_split_seed": args.seed,
         "outer_data_used": "training identities only",
@@ -258,8 +273,8 @@ def main() -> None:
         "inner_fold_seed": inner_seed,
         "inner_folds": args.folds,
         "pca_dimensions": args.k,
-        "c_values": list(C_VALUES),
-        "gamma_values": list(GAMMA_VALUES),
+        "c_values": list(c_values),
+        "gamma_values": list(gamma_values),
         "configuration_count": len(configs),
         "classifier_fit_count": len(configs) * args.folds,
         "primary_metric": "mean identity-fold validation EER",
@@ -269,14 +284,14 @@ def main() -> None:
         "aggregate_results": aggregates,
     }
 
-    args.output_dir.mkdir(parents=True, exist_ok=True)
-    with (args.output_dir / "fold_results.csv").open(
+    output_dir.mkdir(parents=True, exist_ok=True)
+    with (output_dir / "fold_results.csv").open(
         "w", newline="", encoding="utf-8"
     ) as handle:
         writer = csv.DictWriter(handle, fieldnames=list(rows[0]), lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
-    summary_path = args.output_dir / "summary.json"
+    summary_path = output_dir / "summary.json"
     summary_path.write_text(json.dumps(summary, indent=2, ensure_ascii=False) + "\n")
     print(json.dumps(summary, indent=2, ensure_ascii=False))
 

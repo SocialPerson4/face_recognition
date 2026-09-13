@@ -105,7 +105,13 @@ def main() -> None:
     axis.set_xscale("log")
     axis.set_xlabel("Regularization parameter C (log scale)")
     axis.set_ylabel("Mean validation EER (%) · lower is better")
-    axis.set_title("Stronger regularization improves linear classifiers", fontweight="bold")
+    is_boundary = payload.get("search_stage") == "boundary"
+    linear_title = (
+        "Very small C reaches a stable ranking plateau"
+        if is_boundary
+        else "Stronger regularization improves linear classifiers"
+    )
+    axis.set_title(linear_title, fontweight="bold")
     axis.grid(axis="y", color="#D9DEE7", linewidth=0.8)
     axis.legend(frameon=False, loc="upper left")
     figure.suptitle(
@@ -153,10 +159,11 @@ def main() -> None:
     axis.set_xlabel("C")
     axis.set_ylabel("gamma")
     axis.set_title("RBF-SVM C–gamma response surface", fontweight="bold")
+    color_midpoint = 0.5 * (float(np.min(heatmap)) + float(np.max(heatmap)))
     for row_index in range(len(gamma_values)):
         for column_index in range(len(c_values)):
             value = heatmap[row_index, column_index]
-            text_color = "white" if value < 16.0 else "#111827"
+            text_color = "white" if value < color_midpoint else "#111827"
             axis.text(
                 column_index,
                 row_index,
@@ -195,8 +202,9 @@ def main() -> None:
         )
     )
     axis.legend(frameon=False, loc="upper left", bbox_to_anchor=(0.0, -0.13), ncol=2)
+    stage_label = str(payload.get("search_stage", "coarse")).capitalize()
     figure.suptitle(
-        "RBF-SVM coarse hyperparameter search on ORL",
+        f"RBF-SVM {stage_label.lower()} hyperparameter search on ORL",
         fontsize=15,
         fontweight="bold",
     )

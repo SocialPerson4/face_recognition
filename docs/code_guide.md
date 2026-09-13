@@ -492,3 +492,23 @@ CSV 保存每对图片的下标、标签与两个模型的分数，后续可以�
 - `rbf_c_gamma_heatmap`：每格是一个 `C-gamma` 组合的五折平均EER；青色实框是一标准误差规则选择，橙色虚框是观测最低点。
 
 热力图颜色和数字都表示EER，越低越好。图中边框含义不同，不能把青框误读成数值绝对最低。
+
+## 三十四 分类器边界扩展模式
+
+`search_orl_classifier_hyperparameters.py` 现在支持 `--stage coarse` 和 `--stage boundary`。默认粗搜索保持原命令与结果目录不变；边界模式使用更小且更密的C网格，并写入独立目录，防止覆盖上一轮证据。
+
+边界模式仍调用同一套数据加载、身份五折、PCA、配对构造、模型工厂和指标函数，只替换预注册参数列表。因此新旧实验共有的配置可以直接逐字段核对。本轮5个重叠配置的核心指标完全一致。
+
+运行命令：
+
+```bash
+PYTHONPATH=src .venv/bin/python scripts/search_orl_classifier_hyperparameters.py --stage boundary
+```
+
+输出 `results/experiments/orl_classifier_boundary_k80_seed_20260913/`，包含210行逐折结果和42个配置汇总。绘图脚本读取JSON中的 `search_stage`，为边界实验使用平台含义的标题，而不是沿用粗搜索结论。
+
+边界热力图中同一gamma的各列相同不是绘图故障：源CSV和JSON中的EER、AUC同样相同，表示这些低C没有改变分数排序。
+
+`check_classifier_search_overlap.py` 读取粗搜索和边界搜索的JSON，按配置编号寻找交集，并逐项比较8个汇总指标。审计结果保存为 `overlap_audit.json`；只要任一重复配置不一致，脚本就以失败状态退出，避免仅凭肉眼声称实验可复现。
+
+新增测试检查两类参数网格都严格包含42个配置，并确认它们预期共享5个配置。项目当前共28项测试通过。

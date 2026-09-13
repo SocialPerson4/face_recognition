@@ -19,7 +19,8 @@
 - M3B PCA 维数细搜索：已完成，距离基线按一标准误差规则选择 80 维
 - M3C 固定维数模型家族初筛：已完成，默认学习模型出现明显过拟合
 - M3D 分类器超参数粗搜索：已完成，强正则化明显改善但最优C位于下边界
-- M3E 边界扩展、联合调参与外层确认：待开展
+- M3E 分类器下边界扩展：已完成，强正则化区出现稳定排序平台
+- M3F 更低C哨兵确认与外层模型确认：待开展
 - Python 为唯一正式实现
 - MATLAB 和原课程报告不进入本仓库
 - 原始人脸图片不会提交 GitHub
@@ -42,6 +43,9 @@ python3 -m venv .venv
 .venv/bin/python scripts/plot_orl_model_screening.py
 .venv/bin/python scripts/search_orl_classifier_hyperparameters.py
 .venv/bin/python scripts/plot_orl_classifier_search.py
+.venv/bin/python scripts/search_orl_classifier_hyperparameters.py --stage boundary
+.venv/bin/python scripts/check_classifier_search_overlap.py
+.venv/bin/python scripts/plot_orl_classifier_search.py --input results/experiments/orl_classifier_boundary_k80_seed_20260913/summary.json --output-dir results/figures/orl_classifier_boundary_k80_seed_20260913
 .venv/bin/python -m pytest -q
 ```
 

@@ -512,3 +512,13 @@ PYTHONPATH=src .venv/bin/python scripts/search_orl_classifier_hyperparameters.py
 `check_classifier_search_overlap.py` 读取粗搜索和边界搜索的JSON，按配置编号寻找交集，并逐项比较8个汇总指标。审计结果保存为 `overlap_audit.json`；只要任一重复配置不一致，脚本就以失败状态退出，避免仅凭肉眼声称实验可复现。
 
 新增测试检查两类参数网格都严格包含42个配置，并确认它们预期共享5个配置。项目当前共28项测试通过。
+
+## 三十五 分类器哨兵搜索模式
+
+`search_orl_classifier_hyperparameters.py --stage sentinel` 使用3个C和2个RBF-gamma，生成12个配置并运行60次拟合。数据协议和训练代码不变，输出到 `results/experiments/orl_classifier_sentinel_k80_seed_20260913/`。
+
+哨兵阶段的 `summary.json` 新增 `sentinel_diagnostics`：程序以 `C=0.00001` 为锚点，自动计算每个更低C的平均EER改善、AUC改善、五折中实际改善的折数，以及是否同时达到预注册三项标准。这样“平台成立”由保存的规则和布尔结果支持，不靠事后口头判断。
+
+`check_classifier_search_overlap.py` 的两个输入现在使用通用名称 `--reference` 和 `--candidate`，同时保留旧参数名作为兼容别名。本轮自动审计M3E与M3F共有的4个配置，8项指标全部精确一致。
+
+绘图脚本支持 `sentinel` 标题，并在两条线完全重合时明确标注，避免读者误以为只画了一种模型。新增网格测试后项目当前共29项测试通过。

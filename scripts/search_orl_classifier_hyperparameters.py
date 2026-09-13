@@ -35,13 +35,17 @@ COARSE_C_VALUES = (0.001, 0.01, 0.1, 1.0, 10.0, 100.0)
 COARSE_GAMMA_VALUES = (0.0001, 0.001, 0.01, 0.1, 1.0)
 BOUNDARY_C_VALUES = (0.00001, 0.00003, 0.0001, 0.0003, 0.001, 0.003)
 BOUNDARY_GAMMA_VALUES = (0.001, 0.003, 0.01, 0.03, 0.1)
+SENTINEL_C_VALUES = (0.0000001, 0.000001, 0.00001)
+SENTINEL_GAMMA_VALUES = (0.001, 0.01)
 FAMILIES = ("logistic_regression", "linear_svm", "rbf_svm")
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--data-dir", type=Path, default=Path("data/raw/orl"))
-    parser.add_argument("--stage", choices=("coarse", "boundary"), default="coarse")
+    parser.add_argument(
+        "--stage", choices=("coarse", "boundary", "sentinel"), default="coarse"
+    )
     parser.add_argument("--output-dir", type=Path)
     parser.add_argument("--seed", type=int, default=DEFAULT_SEED)
     parser.add_argument("--folds", type=int, default=5)
@@ -109,7 +113,13 @@ def sample_std(values: list[float]) -> float:
 
 def main() -> None:
     args = parse_args()
-    if args.stage == "boundary":
+    if args.stage == "sentinel":
+        c_values = SENTINEL_C_VALUES
+        gamma_values = SENTINEL_GAMMA_VALUES
+        default_output_dir = Path(
+            "results/experiments/orl_classifier_sentinel_k80_seed_20260913"
+        )
+    elif args.stage == "boundary":
         c_values = BOUNDARY_C_VALUES
         gamma_values = BOUNDARY_GAMMA_VALUES
         default_output_dir = Path(
@@ -262,6 +272,74 @@ def main() -> None:
             "selected_aggregate_result": chosen,
         }
 
+    sentinel_diagnostics: dict[str, object] | None = None
+    if args.stage == "sentinel":
+        anchor_c = SENTINEL_C_VALUES[-1]
+        diagnostic_rows: list[dict[str, object]] = []
+        for family in FAMILIES:
+            gammas: tuple[float | None, ...] = (
+                SENTINEL_GAMMA_VALUES if family == "rbf_svm" else (None,)
+            )
+            for gamma in gammas:
+                series = [
+                    row
+                    for row in aggregates
+                    if row["family"] == family and row["gamma"] == gamma
+                ]
+                anchor = next(row for row in series if row["c"] == anchor_c)
+                anchor_folds = {
+                    int(row["fold"]): float(row["validation_eer"])
+                    for row in rows
+                    if row["family"] == family
+                    and row["gamma"] == gamma
+                    and row["c"] == anchor_c
+                }
+                for candidate in series:
+                    if candidate["c"] == anchor_c:
+                        continue
+                    improved_folds = sum(
+                        float(row["validation_eer"])
+                        < anchor_folds[int(row["fold"])]
+                        for row in rows
+                        if row["family"] == family
+                        and row["gamma"] == gamma
+                        and row["c"] == candidate["c"]
+                    )
+                    eer_improvement = float(anchor["mean_validation_eer"]) - float(
+                        candidate["mean_validation_eer"]
+                    )
+                    auc_improvement = float(candidate["mean_validation_roc_auc"]) - float(
+                        anchor["mean_validation_roc_auc"]
+                    )
+                    diagnostic_rows.append(
+                        {
+                            "family": family,
+                            "gamma": gamma,
+                            "anchor_c": anchor_c,
+                            "candidate_c": candidate["c"],
+                            "eer_improvement": eer_improvement,
+                            "auc_improvement": auc_improvement,
+                            "improved_fold_count": improved_folds,
+                            "stable_material_improvement": (
+                                eer_improvement >= 0.005
+                                and auc_improvement >= 0.005
+                                and improved_folds >= 4
+                            ),
+                        }
+                    )
+        sentinel_diagnostics = {
+            "purpose": "boundary diagnosis, not renewed winner selection",
+            "anchor_c": anchor_c,
+            "minimum_eer_improvement": 0.005,
+            "minimum_auc_improvement": 0.005,
+            "minimum_improved_folds": 4,
+            "comparisons": diagnostic_rows,
+            "any_stable_material_improvement": any(
+                bool(row["stable_material_improvement"])
+                for row in diagnostic_rows
+            ),
+        }
+
     summary = {
         "artifact_type": f"ORL classifier hyperparameter {args.stage}-search results",
         "search_stage": args.stage,
@@ -278,9 +356,19 @@ def main() -> None:
         "configuration_count": len(configs),
         "classifier_fit_count": len(configs) * args.folds,
         "primary_metric": "mean identity-fold validation EER",
-        "selection_rule": "one standard error, then predeclared family complexity",
+        "selection_rule": (
+            "sentinel diagnostic thresholds; one-SE summaries are descriptive only"
+            if args.stage == "sentinel"
+            else "one standard error, then predeclared family complexity"
+        ),
+        "family_selections_status": (
+            "descriptive only; do not replace preregistered frozen candidates"
+            if args.stage == "sentinel"
+            else "used for within-family candidate selection"
+        ),
         "fold_protocols": fold_protocols,
         "family_selections": family_selections,
+        "sentinel_diagnostics": sentinel_diagnostics,
         "aggregate_results": aggregates,
     }
 

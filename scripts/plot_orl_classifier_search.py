@@ -105,12 +105,22 @@ def main() -> None:
     axis.set_xscale("log")
     axis.set_xlabel("Regularization parameter C (log scale)")
     axis.set_ylabel("Mean validation EER (%) · lower is better")
-    is_boundary = payload.get("search_stage") == "boundary"
-    linear_title = (
-        "Very small C reaches a stable ranking plateau"
-        if is_boundary
-        else "Stronger regularization improves linear classifiers"
-    )
+    stage = str(payload.get("search_stage", "coarse"))
+    if stage == "sentinel":
+        linear_title = "Lower-C sentinels confirm the ranking plateau"
+        axis.annotate(
+            "LR and linear SVM curves overlap",
+            xy=(1e-6, 12.47),
+            xytext=(1e-6, 13.15),
+            ha="center",
+            color="#4B5563",
+            fontsize=9.5,
+            arrowprops={"arrowstyle": "->", "color": "#6B7280"},
+        )
+    elif stage == "boundary":
+        linear_title = "Very small C reaches a stable ranking plateau"
+    else:
+        linear_title = "Stronger regularization improves linear classifiers"
     axis.set_title(linear_title, fontweight="bold")
     axis.grid(axis="y", color="#D9DEE7", linewidth=0.8)
     axis.legend(frameon=False, loc="upper left")
@@ -186,7 +196,11 @@ def main() -> None:
             fill=False,
             edgecolor="#00BDE3",
             linewidth=3,
-            label="one-SE selected",
+            label=(
+                "descriptive one-SE"
+                if payload.get("search_stage") == "sentinel"
+                else "one-SE selected"
+            ),
         )
     )
     axis.add_patch(

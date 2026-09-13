@@ -22,14 +22,18 @@ METRIC_FIELDS = (
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
+        "--reference",
         "--coarse",
+        dest="reference",
         type=Path,
         default=Path(
             "results/experiments/orl_classifier_search_k80_seed_20260913/summary.json"
         ),
     )
     parser.add_argument(
+        "--candidate",
         "--boundary",
+        dest="candidate",
         type=Path,
         default=Path(
             "results/experiments/orl_classifier_boundary_k80_seed_20260913/summary.json"
@@ -54,15 +58,19 @@ def indexed_results(payload: dict[str, object]) -> dict[str, dict[str, object]]:
 
 def main() -> None:
     args = parse_args()
-    coarse = indexed_results(json.loads(args.coarse.read_text(encoding="utf-8")))
-    boundary = indexed_results(json.loads(args.boundary.read_text(encoding="utf-8")))
-    shared_ids = sorted(coarse.keys() & boundary.keys())
+    reference = indexed_results(
+        json.loads(args.reference.read_text(encoding="utf-8"))
+    )
+    candidate = indexed_results(
+        json.loads(args.candidate.read_text(encoding="utf-8"))
+    )
+    shared_ids = sorted(reference.keys() & candidate.keys())
     comparisons = []
     for config_id in shared_ids:
         differing_fields = [
             field
             for field in METRIC_FIELDS
-            if coarse[config_id][field] != boundary[config_id][field]
+            if reference[config_id][field] != candidate[config_id][field]
         ]
         comparisons.append(
             {
@@ -74,8 +82,8 @@ def main() -> None:
 
     payload = {
         "artifact_type": "classifier search overlap reproducibility audit",
-        "coarse_result": str(args.coarse),
-        "boundary_result": str(args.boundary),
+        "reference_result": str(args.reference),
+        "candidate_result": str(args.candidate),
         "compared_metric_fields": list(METRIC_FIELDS),
         "shared_configuration_count": len(shared_ids),
         "all_exact": bool(shared_ids) and all(

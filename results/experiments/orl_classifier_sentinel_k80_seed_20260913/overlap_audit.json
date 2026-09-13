@@ -1,7 +1,7 @@
 {
   "artifact_type": "classifier search overlap reproducibility audit",
-  "reference_result": "results/experiments/orl_classifier_search_k80_seed_20260913/summary.json",
-  "candidate_result": "results/experiments/orl_classifier_boundary_k80_seed_20260913/summary.json",
+  "reference_result": "results/experiments/orl_classifier_boundary_k80_seed_20260913/summary.json",
+  "candidate_result": "results/experiments/orl_classifier_sentinel_k80_seed_20260913/summary.json",
   "compared_metric_fields": [
     "mean_train_eer",
     "mean_validation_eer",
@@ -12,31 +12,26 @@
     "mean_fnmr_at_target_fmr",
     "std_fnmr_at_target_fmr"
   ],
-  "shared_configuration_count": 5,
+  "shared_configuration_count": 4,
   "all_exact": true,
   "comparisons": [
     {
-      "config_id": "linear_svm__c_0.001",
+      "config_id": "linear_svm__c_1e-05",
       "exact_match": true,
       "differing_fields": []
     },
     {
-      "config_id": "logistic_regression__c_0.001",
+      "config_id": "logistic_regression__c_1e-05",
       "exact_match": true,
       "differing_fields": []
     },
     {
-      "config_id": "rbf_svm__c_0.001__gamma_0.001",
+      "config_id": "rbf_svm__c_1e-05__gamma_0.001",
       "exact_match": true,
       "differing_fields": []
     },
     {
-      "config_id": "rbf_svm__c_0.001__gamma_0.01",
-      "exact_match": true,
-      "differing_fields": []
-    },
-    {
-      "config_id": "rbf_svm__c_0.001__gamma_0.1",
+      "config_id": "rbf_svm__c_1e-05__gamma_0.01",
       "exact_match": true,
       "differing_fields": []
     }

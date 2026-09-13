@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+from dataclasses import asdict
 from pathlib import Path
 
 import numpy as np
@@ -22,6 +23,7 @@ from face_verification.protocol import (
     make_identity_folds,
     split_by_identity,
 )
+from face_verification.selection import select_k_one_standard_error
 
 
 DEFAULT_SEED = 20260913
@@ -42,6 +44,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--folds", type=int, default=5)
     parser.add_argument("--k-values", type=int, nargs="+", default=DEFAULT_K_VALUES)
     parser.add_argument("--target-fmr", type=float, default=0.01)
+    parser.add_argument("--stage", choices=("coarse", "fine"), default="coarse")
     return parser.parse_args()
 
 
@@ -170,16 +173,26 @@ def main() -> None:
         key=lambda row: (
             float(row["mean_eer"]),
             float(row["std_eer"]),
-            -float(row["mean_roc_auc"]),
             int(row["k"]),
+            -float(row["mean_roc_auc"]),
         ),
     )
     for rank, row in enumerate(ranked, start=1):
-        row["coarse_rank"] = rank
+        row["search_rank"] = rank
     aggregates.sort(key=lambda row: int(row["k"]))
 
+    selection = None
+    if args.stage == "fine":
+        selection = select_k_one_standard_error(
+            np.asarray([row["k"] for row in aggregates], dtype=np.int64),
+            np.asarray([row["mean_eer"] for row in aggregates]),
+            np.asarray([row["std_eer"] for row in aggregates]),
+            n_folds=args.folds,
+        )
+
     summary = {
-        "artifact_type": "ORL PCA-k coarse-search development results",
+        "artifact_type": f"ORL PCA-k {args.stage}-search development results",
+        "search_stage": args.stage,
         "dataset": "ORL Database of Faces",
         "outer_split_seed": args.seed,
         "outer_data_used": "training identities only",
@@ -189,10 +202,20 @@ def main() -> None:
         "inner_folds": args.folds,
         "k_values": list(k_values),
         "score_definition": "negative Euclidean distance in the first k PCA coordinates",
-        "primary_ranking": "ascending mean inner-validation EER",
+        "primary_ranking": (
+            "ascending mean inner-validation EER; ties use lower EER standard "
+            "deviation, then smaller k"
+        ),
         "standard_deviation": "sample standard deviation across identity folds (ddof=1)",
-        "selection_status": "coarse best is provisional; fine search is required",
-        "coarse_best_k": int(ranked[0]["k"]),
+        "observed_best_k": int(ranked[0]["k"]),
+        "selection_status": (
+            "coarse best is provisional; fine search is required"
+            if args.stage == "coarse"
+            else "distance-baseline k frozen by the predeclared one-standard-error rule"
+        ),
+        "one_standard_error_selection": (
+            asdict(selection) if selection is not None else None
+        ),
         "fold_protocols": fold_protocols,
         "aggregate_results": aggregates,
     }

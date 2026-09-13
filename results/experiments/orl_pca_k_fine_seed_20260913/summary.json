@@ -1,6 +1,6 @@
 {
-  "artifact_type": "ORL PCA-k coarse-search development results",
-  "search_stage": "coarse",
+  "artifact_type": "ORL PCA-k fine-search development results",
+  "search_stage": "fine",
   "dataset": "ORL Database of Faces",
   "outer_split_seed": 20260913,
   "outer_data_used": "training identities only",
@@ -9,20 +9,38 @@
   "inner_fold_seed": 20261114,
   "inner_folds": 5,
   "k_values": [
-    10,
-    20,
-    40,
     80,
+    100,
     120,
+    140,
     160,
-    180
+    170,
+    180,
+    185
   ],
   "score_definition": "negative Euclidean distance in the first k PCA coordinates",
   "primary_ranking": "ascending mean inner-validation EER; ties use lower EER standard deviation, then smaller k",
   "standard_deviation": "sample standard deviation across identity folds (ddof=1)",
-  "observed_best_k": 180,
-  "selection_status": "coarse best is provisional; fine search is required",
-  "one_standard_error_selection": null,
+  "observed_best_k": 170,
+  "selection_status": "distance-baseline k frozen by the predeclared one-standard-error rule",
+  "one_standard_error_selection": {
+    "observed_best_k": 170,
+    "selected_k": 80,
+    "best_mean_loss": 0.09311111111111112,
+    "best_standard_deviation": 0.03648439544669901,
+    "best_standard_error": 0.016316317667360556,
+    "eligibility_cutoff": 0.10942742877847167,
+    "eligible_k": [
+      80,
+      100,
+      120,
+      140,
+      160,
+      170,
+      180,
+      185
+    ]
+  },
   "fold_protocols": [
     {
       "fold": 1,
@@ -207,39 +225,6 @@
   ],
   "aggregate_results": [
     {
-      "k": 10,
-      "mean_eer": 0.12155555555555557,
-      "std_eer": 0.051637387163628055,
-      "mean_roc_auc": 0.9526898765432097,
-      "std_roc_auc": 0.026609772617981486,
-      "mean_fnmr_at_target_fmr": 0.38555555555555554,
-      "std_fnmr_at_target_fmr": 0.18719831697038092,
-      "mean_retained_variance": 0.6534920965845155,
-      "search_rank": 7
-    },
-    {
-      "k": 20,
-      "mean_eer": 0.10622222222222222,
-      "std_eer": 0.03713173079858741,
-      "mean_roc_auc": 0.9640740740740741,
-      "std_roc_auc": 0.01850844104400992,
-      "mean_fnmr_at_target_fmr": 0.3055555555555555,
-      "std_fnmr_at_target_fmr": 0.14479018451146541,
-      "mean_retained_variance": 0.7570276290771025,
-      "search_rank": 6
-    },
-    {
-      "k": 40,
-      "mean_eer": 0.10244444444444445,
-      "std_eer": 0.03243607197908061,
-      "mean_roc_auc": 0.9665839506172841,
-      "std_roc_auc": 0.01772529070278958,
-      "mean_fnmr_at_target_fmr": 0.30266666666666664,
-      "std_fnmr_at_target_fmr": 0.1820080041653304,
-      "mean_retained_variance": 0.8458335635912922,
-      "search_rank": 5
-    },
-    {
       "k": 80,
       "mean_eer": 0.09555555555555556,
       "std_eer": 0.037646831880216475,
@@ -248,7 +233,18 @@
       "mean_fnmr_at_target_fmr": 0.2793333333333333,
       "std_fnmr_at_target_fmr": 0.1441184355202003,
       "mean_retained_variance": 0.923555767291593,
-      "search_rank": 4
+      "search_rank": 8
+    },
+    {
+      "k": 100,
+      "mean_eer": 0.09444444444444444,
+      "std_eer": 0.03584947956644817,
+      "mean_roc_auc": 0.9698679012345679,
+      "std_roc_auc": 0.01708704902323723,
+      "mean_fnmr_at_target_fmr": 0.284,
+      "std_fnmr_at_target_fmr": 0.15619234738845578,
+      "mean_retained_variance": 0.9467062574003069,
+      "search_rank": 7
     },
     {
       "k": 120,
@@ -259,7 +255,18 @@
       "mean_fnmr_at_target_fmr": 0.2757777777777778,
       "std_fnmr_at_target_fmr": 0.14707938563582712,
       "mean_retained_variance": 0.9645341527199811,
-      "search_rank": 2
+      "search_rank": 4
+    },
+    {
+      "k": 140,
+      "mean_eer": 0.09422222222222222,
+      "std_eer": 0.03533263451440318,
+      "mean_roc_auc": 0.9699720987654322,
+      "std_roc_auc": 0.016982287490239882,
+      "mean_fnmr_at_target_fmr": 0.274,
+      "std_fnmr_at_target_fmr": 0.1502253451351923,
+      "mean_retained_variance": 0.9782985123519792,
+      "search_rank": 5
     },
     {
       "k": 160,
@@ -270,7 +277,18 @@
       "mean_fnmr_at_target_fmr": 0.27955555555555556,
       "std_fnmr_at_target_fmr": 0.15644507575630198,
       "mean_retained_variance": 0.9889394933334174,
-      "search_rank": 3
+      "search_rank": 6
+    },
+    {
+      "k": 170,
+      "mean_eer": 0.09311111111111112,
+      "std_eer": 0.03648439544669901,
+      "mean_roc_auc": 0.9700014814814815,
+      "std_roc_auc": 0.017086956710323908,
+      "mean_fnmr_at_target_fmr": 0.2806666666666667,
+      "std_fnmr_at_target_fmr": 0.15605396344269132,
+      "mean_retained_variance": 0.9933152603187096,
+      "search_rank": 1
     },
     {
       "k": 180,
@@ -281,7 +299,18 @@
       "mean_fnmr_at_target_fmr": 0.278,
       "std_fnmr_at_target_fmr": 0.15887801050561473,
       "mean_retained_variance": 0.9970630957185133,
-      "search_rank": 1
+      "search_rank": 2
+    },
+    {
+      "k": 185,
+      "mean_eer": 0.09311111111111112,
+      "std_eer": 0.03648439544669901,
+      "mean_roc_auc": 0.9700930864197531,
+      "std_roc_auc": 0.017115062777446486,
+      "mean_fnmr_at_target_fmr": 0.27911111111111114,
+      "std_fnmr_at_target_fmr": 0.15855520516974442,
+      "mean_retained_variance": 0.9986009703012193,
+      "search_rank": 3
     }
   ]
 }

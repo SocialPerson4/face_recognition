@@ -26,12 +26,14 @@ from .protocol import (
     make_identity_folds,
     split_by_identity,
 )
+from .selection import OneStandardErrorResult, select_k_one_standard_error
 
 __all__ = [
     "DatasetSplit",
     "EERResult",
     "IdentityFold",
     "ORLDataset",
+    "OneStandardErrorResult",
     "PairRecord",
     "PairSet",
     "ThresholdSelection",
@@ -47,6 +49,7 @@ __all__ = [
     "rates_at_threshold",
     "roc_auc",
     "select_threshold_at_fmr",
+    "select_k_one_standard_error",
     "split_by_identity",
     "theoretical_pair_counts",
     "transform_images",

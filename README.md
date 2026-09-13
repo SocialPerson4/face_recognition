@@ -25,7 +25,8 @@
 - M5 一次性最终测试：已完成，PCA距离在冻结测试中领先，ORL主实验已封板
 - M6 高相似困难负样本代理分析：已完成，困难组FMR较普通组放大12—41倍
 - M7A LFW Funneled第二数据集准备与审计：已完成，13,233张图像及官方配对全部通过检查
-- M7B LFW实验协议设计：待开展
+- M7B LFW实验协议设计：已完成，冻结官方十折上的8/1/1身份隔离轮转评测
+- M7C LFW图像预处理与距离基线：待开展
 - Python 为唯一正式实现
 - MATLAB 和原课程报告不进入本仓库
 - 原始人脸图片不会提交 GitHub
@@ -61,6 +62,8 @@ python3 -m venv .venv
 .venv/bin/python scripts/analyze_orl_hard_negatives.py
 .venv/bin/python scripts/plot_orl_hard_negatives.py
 .venv/bin/python scripts/audit_lfw.py
+.venv/bin/python scripts/analyze_lfw_protocols.py
+.venv/bin/python scripts/plot_lfw_protocol_design.py
 .venv/bin/python -m pytest -q
 ```
 

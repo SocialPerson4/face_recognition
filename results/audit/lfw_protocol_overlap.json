@@ -1,0 +1,169 @@
+{
+  "artifact_type": "LFW official protocol overlap audit",
+  "protocols": {
+    "pairsDevTrain.txt": {
+      "header": [
+        1100
+      ],
+      "pair_count": 2200,
+      "positive_pair_count": 1100,
+      "negative_pair_count": 1100,
+      "unique_identity_count": 2132,
+      "unique_image_count": 3443,
+      "unique_pair_count": 2200,
+      "duplicate_pair_count": 0
+    },
+    "pairsDevTest.txt": {
+      "header": [
+        500
+      ],
+      "pair_count": 1000,
+      "positive_pair_count": 500,
+      "negative_pair_count": 500,
+      "unique_identity_count": 963,
+      "unique_image_count": 1549,
+      "unique_pair_count": 1000,
+      "duplicate_pair_count": 0
+    },
+    "pairs.txt": {
+      "header": [
+        10,
+        300
+      ],
+      "pair_count": 6000,
+      "positive_pair_count": 3000,
+      "negative_pair_count": 3000,
+      "unique_identity_count": 4281,
+      "unique_image_count": 7701,
+      "unique_pair_count": 6000,
+      "duplicate_pair_count": 0
+    }
+  },
+  "cross_protocol_overlap": {
+    "dev_train_vs_dev_test": {
+      "shared_identities_count": 0,
+      "shared_images_count": 0,
+      "shared_pairs_count": 0
+    },
+    "dev_train_vs_benchmark": {
+      "shared_identities_count": 1689,
+      "shared_images_count": 2507,
+      "shared_pairs_count": 525
+    },
+    "dev_test_vs_benchmark": {
+      "shared_identities_count": 776,
+      "shared_images_count": 1130,
+      "shared_pairs_count": 233
+    }
+  },
+  "benchmark_fold_overlap": [
+    {
+      "held_out_fold": 1,
+      "held_out_pair_count": 600,
+      "held_out_identity_count": 435,
+      "held_out_image_count": 807,
+      "shared_identities_count": 0,
+      "shared_images_count": 0,
+      "shared_pairs_count": 0
+    },
+    {
+      "held_out_fold": 2,
+      "held_out_pair_count": 600,
+      "held_out_identity_count": 409,
+      "held_out_image_count": 776,
+      "shared_identities_count": 0,
+      "shared_images_count": 0,
+      "shared_pairs_count": 0
+    },
+    {
+      "held_out_fold": 3,
+      "held_out_pair_count": 600,
+      "held_out_identity_count": 397,
+      "held_out_image_count": 737,
+      "shared_identities_count": 0,
+      "shared_images_count": 0,
+      "shared_pairs_count": 0
+    },
+    {
+      "held_out_fold": 4,
+      "held_out_pair_count": 600,
+      "held_out_identity_count": 423,
+      "held_out_image_count": 754,
+      "shared_identities_count": 0,
+      "shared_images_count": 0,
+      "shared_pairs_count": 0
+    },
+    {
+      "held_out_fold": 5,
+      "held_out_pair_count": 600,
+      "held_out_identity_count": 422,
+      "held_out_image_count": 737,
+      "shared_identities_count": 0,
+      "shared_images_count": 0,
+      "shared_pairs_count": 0
+    },
+    {
+      "held_out_fold": 6,
+      "held_out_pair_count": 600,
+      "held_out_identity_count": 419,
+      "held_out_image_count": 743,
+      "shared_identities_count": 0,
+      "shared_images_count": 0,
+      "shared_pairs_count": 0
+    },
+    {
+      "held_out_fold": 7,
+      "held_out_pair_count": 600,
+      "held_out_identity_count": 443,
+      "held_out_image_count": 813,
+      "shared_identities_count": 0,
+      "shared_images_count": 0,
+      "shared_pairs_count": 0
+    },
+    {
+      "held_out_fold": 8,
+      "held_out_pair_count": 600,
+      "held_out_identity_count": 443,
+      "held_out_image_count": 785,
+      "shared_identities_count": 0,
+      "shared_images_count": 0,
+      "shared_pairs_count": 0
+    },
+    {
+      "held_out_fold": 9,
+      "held_out_pair_count": 600,
+      "held_out_identity_count": 439,
+      "held_out_image_count": 764,
+      "shared_identities_count": 0,
+      "shared_images_count": 0,
+      "shared_pairs_count": 0
+    },
+    {
+      "held_out_fold": 10,
+      "held_out_pair_count": 600,
+      "held_out_identity_count": 451,
+      "held_out_image_count": 785,
+      "shared_identities_count": 0,
+      "shared_images_count": 0,
+      "shared_pairs_count": 0
+    }
+  ],
+  "benchmark_fold_overlap_summary": {
+    "shared_identities_count": {
+      "minimum": 0,
+      "maximum": 0,
+      "mean": 0
+    },
+    "shared_images_count": {
+      "minimum": 0,
+      "maximum": 0,
+      "mean": 0
+    },
+    "shared_pairs_count": {
+      "minimum": 0,
+      "maximum": 0,
+      "mean": 0
+    }
+  },
+  "note": "This analysis inspects protocol membership only and fits no model."
+}

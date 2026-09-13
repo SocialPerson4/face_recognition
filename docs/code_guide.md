@@ -591,3 +591,15 @@ PYTHONPATH=src .venv/bin/python scripts/search_orl_classifier_hyperparameters.py
 `audit_pair_protocol(...)` 支持LFW两种头部格式：开发文件的一列表示每类配对数，正式协议的两列表示折数和每折每类配对数。三列记录被解释为同人正配对，四列记录被解释为异人负配对；程序将身份名和序号还原成四位文件名并检查引用存在。
 
 结果写入 `results/audit/lfw_funneled_summary.json`。测试覆盖四位文件名还原及正负配对解析。项目当前共37项测试。
+
+## 四十三 `scripts/analyze_lfw_protocols.py`
+
+`ProtocolPair` 保存左右图片、真假标签和所属折号，并提供身份集合与忽略左右顺序的规范配对键。`parse_protocol(...)` 根据LFW头部格式恢复开发配对或十折配对；十折文件按每折600行分配折号。
+
+`pair_sets(...)` 分别建立身份、图片和配对集合，`overlap(...)` 用集合交集统计两组共享元素。脚本输出三个文件的规模、文件间重叠，以及每个正式折相对其余九折的身份、图片和配对重叠，保存到 `results/audit/lfw_protocol_overlap.json`。
+
+## 四十四 `scripts/plot_lfw_protocol_design.py`
+
+脚本只读取协议分析JSON，生成 `lfw_protocol_design.png/svg`。左侧柱状图展示两个开发文件与正式十折的身份和图片重叠；右侧用颜色编码本项目冻结的8折训练、1折阈值校准、1折测试轮转。图中不包含模型性能。
+
+新增测试检查十折行号映射，以及身份重叠、图片重叠和完整配对重叠能够被分别识别。项目当前共39项测试。

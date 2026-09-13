@@ -180,7 +180,8 @@ def main() -> None:
         "validation_identities": list(split.validation_identities),
         "test_identity_count": len(split.test_identities),
         "test_status": (
-            "test pixels were not fitted, transformed, paired, scored, or inspected"
+            "the M1 protocol pre-generated test identities and pair indices; test "
+            "pixels were not used for fitting, transformation, scoring, or decisions"
         ),
         "validation_reuse_disclosure": (
             "these validation identities were viewed during the earlier M2B distance "

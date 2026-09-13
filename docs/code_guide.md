@@ -525,7 +525,7 @@ PYTHONPATH=src .venv/bin/python scripts/search_orl_classifier_hyperparameters.py
 
 ## 三十六 `scripts/evaluate_orl_frozen_candidates.py`
 
-脚本把M3冻结的四套配置写成 `FROZEN_CONFIGURATIONS` 常量。它重新取得固定身份划分，只将24个训练身份交给PCA和分类器；80张验证图片只接受已经拟合好的变换，测试图片不拟合、不变换、不配对、不评分。
+脚本把M3冻结的四套配置写成 `FROZEN_CONFIGURATIONS` 常量。它重新取得固定身份划分，只将24个训练身份交给PCA和分类器；80张验证图片只接受已经拟合好的变换。M1虽已预生成测试配对清单，但M4不拟合、变换或评分测试像素。
 
 流程为：训练图片拟合80维PCA；训练与验证分别生成固定平衡配对；距离模型计算负欧氏距离；三个分类器用训练配对的绝对差拟合并对验证配对评分；最后按EER、AUC和预注册复杂度顺序排名。
 
@@ -542,3 +542,20 @@ PYTHONPATH=src .venv/bin/python scripts/search_orl_classifier_hyperparameters.py
 脚本只读取M4保存的JSON生成PNG和SVG，不重新训练。左图展示验证EER与AUC，星号表示按主规则得到的开发候选；右图展示FMR不超过1%时的FNMR，星号表示严格门禁工作点下错误拒绝最低者。
 
 图底明确披露验证身份早期曾在M2B距离实验中查看，但未进入M3调参；同时标注最终8个测试身份未触碰。
+
+## 三十八 `scripts/run_orl_final_test.py`
+
+脚本硬编码M4摘要的SHA-256，运行第一步先重新计算文件摘要；不一致立即停止。随后从M4 JSON读取四个配置和各自验证阈值，仅用24个训练身份复现80维PCA和分类器。
+
+测试身份和种子也会与预注册值核对。测试标签只用于最后计算EER、AUC和固定阈值混淆指标，不参与模型拟合或阈值选择。输出：
+
+- `summary.json`：冻结文件摘要、身份、种子、配置、验证指标和最终测试指标。
+- `test_scores.csv`：720条测试配对的四模型连续分数及按冻结阈值得到的接受标记。
+
+结果文件明确写入 `post_test_model_selection=prohibited`，防止把测试排名误作新一轮选择依据。
+
+## 三十九 `scripts/plot_orl_final_test.py`
+
+脚本只读取已保存的最终JSON和CSV，生成两组PNG/SVG。`final_test_comparison` 比较验证与测试EER，并展示固定阈值下的测试FMR/FNMR；`final_test_roc` 展示完整ROC、低FMR局部和验证阈值对应的测试工作点。
+
+圆点由冻结阈值产生，不是根据测试曲线重新挑选。新增摘要哈希合同测试后，项目当前共33项测试通过。

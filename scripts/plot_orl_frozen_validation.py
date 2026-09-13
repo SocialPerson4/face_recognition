@@ -129,7 +129,7 @@ def main() -> None:
     figure.text(
         0.5,
         0.07,
-        "24 training identities → 8 validation identities · frozen k/C/gamma · final 8 test identities untouched",
+        "24 training identities → 8 validation identities · frozen k/C/gamma · final 8 test identities unscored at M4",
         ha="center",
         color="#4B5563",
         fontsize=9.5,

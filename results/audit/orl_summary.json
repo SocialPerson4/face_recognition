@@ -1,0 +1,17 @@
+{
+  "dataset": "ORL Database of Faces",
+  "num_images": 400,
+  "num_identities": 40,
+  "images_per_identity": [
+    10
+  ],
+  "image_height": 112,
+  "image_width": 92,
+  "flattened_dimension": 10304,
+  "pixel_min": 0.0,
+  "pixel_max": 0.9843137264251709,
+  "pixel_mean": 0.44169121980667114,
+  "theoretical_same_identity_pairs": 1800,
+  "theoretical_different_identity_pairs": 78000,
+  "note": "Pair counts cover the full dataset before train/validation/test splitting."
+}

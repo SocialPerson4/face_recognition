@@ -1,0 +1,34 @@
+# Face Verification under High Identity Similarity
+
+面向高相似身份风险的人脸验证研究。项目从传统机器学习出发，研究 PCA 特征维数、距离度量和支持向量机对人脸验证性能与错误接受风险的影响。
+
+## Research scope
+
+- 第一阶段：在 ORL 数据集上建立无泄漏的人脸验证基线并选择参数。
+- 第二阶段：比较普通负样本与高相似困难负样本的错误接受风险。
+- 第三阶段：在 LFW Funneled 上检查方法在复杂图像条件下的表现。
+- 双胞胎是研究动机和未来验证场景，当前不声称已完成双胞胎实验。
+
+## Current status
+
+- M0 research protocol：已完成
+- M1 ORL data audit and pairing protocol：进行中
+- Python 为唯一正式实现
+- MATLAB 和原课程报告不进入本仓库
+- 原始人脸图片不会提交 GitHub
+
+## Quick start
+
+```bash
+python -m pip install -e .
+python scripts/audit_orl.py
+python -m unittest discover -s tests -v
+```
+
+ORL 数据应放在 `data/raw/orl/`，具体结构见 [data/README.md](data/README.md)。
+
+## Documentation
+
+- [Research plan](docs/research_plan.md)
+- [Research thinking and decisions](docs/research_thinking.md)
+- [Project proposal speech](docs/speeches/00_project_proposal.md)

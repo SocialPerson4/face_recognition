@@ -2,7 +2,10 @@ import unittest
 
 import numpy as np
 
-from face_verification.selection import select_k_one_standard_error
+from face_verification.selection import (
+    select_configuration_one_standard_error,
+    select_k_one_standard_error,
+)
 
 
 class OneStandardErrorSelectionTests(unittest.TestCase):
@@ -36,6 +39,17 @@ class OneStandardErrorSelectionTests(unittest.TestCase):
                 np.array([0.01, 0.02]),
                 n_folds=5,
             )
+
+    def test_configuration_selection_uses_declared_complexity_order(self) -> None:
+        result = select_configuration_one_standard_error(
+            np.array([0.10, 0.09, 0.095]),
+            np.array([0.03, 0.03, 0.03]),
+            np.array([[0.1, 1.0], [1.0, 0.1], [0.01, 10.0]]),
+            n_folds=5,
+        )
+        self.assertEqual(result.observed_best_index, 1)
+        self.assertEqual(result.eligible_indices, (0, 1, 2))
+        self.assertEqual(result.selected_index, 2)
 
 
 if __name__ == "__main__":

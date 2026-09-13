@@ -1,0 +1,92 @@
+{
+  "artifact_type": "ORL development distance-baseline results",
+  "dataset": "ORL Database of Faces",
+  "split_seed": 20260913,
+  "score_definition": "negative Euclidean distance; larger means more similar",
+  "target_fmr": 0.01,
+  "test_status": "test pairs were not constructed or scored; test images did not enter PCA fitting or transformation",
+  "warning": "Validation selects each threshold and is development evidence; it is not an untouched final-test estimate.",
+  "models": {
+    "raw_pixels": {
+      "feature_dimensions": 10304,
+      "preprocessing": "flatten 112x92 pixels already scaled to [0,1]",
+      "train": {
+        "pair_count": 2160,
+        "positive_pairs": 1080,
+        "negative_pairs": 1080,
+        "eer": {
+          "eer": 0.12314814814814815,
+          "threshold": -18.363281580426158
+        },
+        "roc_auc": 0.9519238683127571
+      },
+      "validation": {
+        "pair_count": 720,
+        "positive_pairs": 360,
+        "negative_pairs": 360,
+        "eer": {
+          "eer": 0.21944444444444444,
+          "threshold": -18.279491023702455
+        },
+        "roc_auc": 0.9004166666666666,
+        "selected_working_point": {
+          "selection_data": "outer validation",
+          "target_fmr": 0.01,
+          "rates": {
+            "threshold": -14.718301162155058,
+            "true_accepts": 193,
+            "false_rejects": 167,
+            "false_accepts": 3,
+            "true_rejects": 357,
+            "fmr": 0.008333333333333333,
+            "fnmr": 0.4638888888888889,
+            "true_accept_rate": 0.5361111111111111,
+            "accuracy": 0.7638888888888888
+          }
+        }
+      }
+    },
+    "pca_95": {
+      "feature_dimensions": 125,
+      "requested_retained_variance": 0.95,
+      "actual_retained_variance": 0.9506165608955768,
+      "fit_images": 240,
+      "preprocessing": "PCA fitted only on outer-training identities; no whitening",
+      "train": {
+        "pair_count": 2160,
+        "positive_pairs": 1080,
+        "negative_pairs": 1080,
+        "eer": {
+          "eer": 0.125,
+          "threshold": -17.664957146642784
+        },
+        "roc_auc": 0.9489891975308642
+      },
+      "validation": {
+        "pair_count": 720,
+        "positive_pairs": 360,
+        "negative_pairs": 360,
+        "eer": {
+          "eer": 0.19166666666666668,
+          "threshold": -14.155068018377388
+        },
+        "roc_auc": 0.9256558641975308,
+        "selected_working_point": {
+          "selection_data": "outer validation",
+          "target_fmr": 0.01,
+          "rates": {
+            "threshold": -11.020306350867,
+            "true_accepts": 205,
+            "false_rejects": 155,
+            "false_accepts": 3,
+            "true_rejects": 357,
+            "fmr": 0.008333333333333333,
+            "fnmr": 0.4305555555555556,
+            "true_accept_rate": 0.5694444444444444,
+            "accuracy": 0.7805555555555556
+          }
+        }
+      }
+    }
+  }
+}

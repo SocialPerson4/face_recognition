@@ -20,9 +20,11 @@
 ## Quick start
 
 ```bash
-python -m pip install -e .
-python scripts/audit_orl.py
-python -m unittest discover -s tests -v
+python3 -m venv .venv
+.venv/bin/python -m pip install --upgrade pip setuptools wheel
+.venv/bin/python -m pip install -e ".[dev]"
+.venv/bin/python scripts/audit_orl.py
+.venv/bin/python -m pytest -q
 ```
 
 ORL 数据应放在 `data/raw/orl/`，具体结构见 [data/README.md](data/README.md)。
@@ -31,4 +33,6 @@ ORL 数据应放在 `data/raw/orl/`，具体结构见 [data/README.md](data/READ
 
 - [Research plan](docs/research_plan.md)
 - [Research thinking and decisions](docs/research_thinking.md)
-- [Project proposal speech](docs/speeches/00_project_proposal.md)
+- [Code and module guide](docs/code_guide.md)
+
+复试演讲词与个人准备统一保存在本机 `local/interview_prep.md`，该目录不会提交 GitHub。

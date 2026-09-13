@@ -18,3 +18,5 @@ data/restricted/
 results/tmp/
 reports/build/
 
+# Private interview notes and stage speeches stay on this computer.
+local/

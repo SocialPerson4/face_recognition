@@ -1,0 +1,208 @@
+{
+  "artifact_type": "Final research synthesis from frozen experiment artifacts",
+  "project_status": "sealed",
+  "project_title": "Face verification under high identity similarity risk",
+  "models": {
+    "pca_distance": {
+      "orl": {
+        "development_eer": 0.18055555555555555,
+        "final_test_eer": 0.11666666666666667,
+        "final_test_roc_auc": 0.9566666666666667,
+        "final_test_fmr": 0.005555555555555556,
+        "final_test_fnmr": 0.4583333333333333
+      },
+      "orl_hard_negative_proxy": {
+        "ordinary_fmr": 0.0014285714285714286,
+        "hard_fmr": 0.05857142857142857,
+        "risk_multiplier": 41.0
+      },
+      "lfw_transfer": {
+        "eer": {
+          "mean": 0.37366666666666665,
+          "standard_deviation": 0.025745669658659882,
+          "minimum": 0.3233333333333333,
+          "maximum": 0.41
+        },
+        "roc_auc": {
+          "mean": 0.6741066666666666,
+          "standard_deviation": 0.0295549351090543,
+          "minimum": 0.6376999999999999,
+          "maximum": 0.7289666666666667
+        },
+        "fmr": {
+          "mean": 0.012,
+          "standard_deviation": 0.007062332703142535,
+          "minimum": 0.0033333333333333335,
+          "maximum": 0.023333333333333334
+        },
+        "fnmr": {
+          "mean": 0.9280000000000002,
+          "standard_deviation": 0.023737244787958356,
+          "minimum": 0.8766666666666667,
+          "maximum": 0.9566666666666667
+        },
+        "accuracy": {
+          "mean": 0.53,
+          "standard_deviation": 0.010540925533894588,
+          "minimum": 0.5166666666666667,
+          "maximum": 0.5516666666666666
+        }
+      }
+    },
+    "logistic_regression": {
+      "orl": {
+        "development_eer": 0.17222222222222222,
+        "final_test_eer": 0.13333333333333333,
+        "final_test_roc_auc": 0.9361574074074075,
+        "final_test_fmr": 0.008333333333333333,
+        "final_test_fnmr": 0.48333333333333334
+      },
+      "orl_hard_negative_proxy": {
+        "ordinary_fmr": 0.005714285714285714,
+        "hard_fmr": 0.06857142857142857,
+        "risk_multiplier": 12.0
+      },
+      "lfw_transfer": {
+        "eer": {
+          "mean": 0.375,
+          "standard_deviation": 0.035320402945005186,
+          "minimum": 0.31666666666666665,
+          "maximum": 0.43666666666666665
+        },
+        "roc_auc": {
+          "mean": 0.6757055555555554,
+          "standard_deviation": 0.039985118030627126,
+          "minimum": 0.5934444444444444,
+          "maximum": 0.7188888888888888
+        },
+        "fmr": {
+          "mean": 0.012666666666666668,
+          "standard_deviation": 0.010036968702787747,
+          "minimum": 0.0,
+          "maximum": 0.03
+        },
+        "fnmr": {
+          "mean": 0.9093333333333333,
+          "standard_deviation": 0.03474066177042277,
+          "minimum": 0.8566666666666667,
+          "maximum": 0.9466666666666667
+        },
+        "accuracy": {
+          "mean": 0.5389999999999999,
+          "standard_deviation": 0.014384490962384228,
+          "minimum": 0.5216666666666666,
+          "maximum": 0.5616666666666666
+        }
+      }
+    },
+    "linear_svm": {
+      "orl": {
+        "development_eer": 0.16944444444444445,
+        "final_test_eer": 0.13055555555555556,
+        "final_test_roc_auc": 0.9361728395061728,
+        "final_test_fmr": 0.008333333333333333,
+        "final_test_fnmr": 0.48333333333333334
+      },
+      "orl_hard_negative_proxy": {
+        "ordinary_fmr": 0.005714285714285714,
+        "hard_fmr": 0.06857142857142857,
+        "risk_multiplier": 12.0
+      },
+      "lfw_transfer": {
+        "eer": {
+          "mean": 0.37766666666666665,
+          "standard_deviation": 0.03503261267187025,
+          "minimum": 0.32,
+          "maximum": 0.44
+        },
+        "roc_auc": {
+          "mean": 0.6736455555555556,
+          "standard_deviation": 0.04015923669818775,
+          "minimum": 0.5917444444444444,
+          "maximum": 0.7177
+        },
+        "fmr": {
+          "mean": 0.012,
+          "standard_deviation": 0.008916623398995058,
+          "minimum": 0.0,
+          "maximum": 0.03
+        },
+        "fnmr": {
+          "mean": 0.9109999999999999,
+          "standard_deviation": 0.033409172984469,
+          "minimum": 0.8633333333333333,
+          "maximum": 0.95
+        },
+        "accuracy": {
+          "mean": 0.5385,
+          "standard_deviation": 0.014475394192803085,
+          "minimum": 0.5216666666666666,
+          "maximum": 0.5566666666666666
+        }
+      }
+    },
+    "rbf_svm": {
+      "orl": {
+        "development_eer": 0.16944444444444445,
+        "final_test_eer": 0.13055555555555556,
+        "final_test_roc_auc": 0.9366743827160493,
+        "final_test_fmr": 0.005555555555555556,
+        "final_test_fnmr": 0.49722222222222223
+      },
+      "orl_hard_negative_proxy": {
+        "ordinary_fmr": 0.004285714285714286,
+        "hard_fmr": 0.05857142857142857,
+        "risk_multiplier": 13.666666666666666
+      },
+      "lfw_transfer": {
+        "eer": {
+          "mean": 0.3773333333333333,
+          "standard_deviation": 0.03250071224290779,
+          "minimum": 0.33,
+          "maximum": 0.43666666666666665
+        },
+        "roc_auc": {
+          "mean": 0.6713966666666666,
+          "standard_deviation": 0.03975828684832701,
+          "minimum": 0.5919666666666668,
+          "maximum": 0.7153222222222222
+        },
+        "fmr": {
+          "mean": 0.012333333333333333,
+          "standard_deviation": 0.007864594830749506,
+          "minimum": 0.0,
+          "maximum": 0.02666666666666667
+        },
+        "fnmr": {
+          "mean": 0.9106666666666667,
+          "standard_deviation": 0.0316929715306792,
+          "minimum": 0.8666666666666667,
+          "maximum": 0.95
+        },
+        "accuracy": {
+          "mean": 0.5385000000000001,
+          "standard_deviation": 0.01402048765464576,
+          "minimum": 0.52,
+          "maximum": 0.5583333333333333
+        }
+      }
+    }
+  },
+  "main_findings": [
+    "PCA distance achieved the best ORL final-test EER at 11.67%; the development-selected RBF advantage did not persist.",
+    "Identity-level hard negative proxies increased frozen-threshold FMR from 0.14-0.57% to 5.86-6.86% across models.",
+    "On identity-disjoint LFW folds, all ORL-frozen methods produced about 37-38% EER and above 90% FNMR at the strict operating point.",
+    "The evidence supports a controlled-condition baseline and a high-similarity risk finding, not a deployable or twin-validated system."
+  ],
+  "claim_boundary": {
+    "twin_dataset_used": false,
+    "deployable_access_control_claim": false,
+    "lfw_hyperparameter_search_performed": false,
+    "orl_test_reused_for_tuning": false
+  },
+  "source_artifacts": {
+    "orl": "results/experiments/orl_final_test_seed_20260913/summary.json",
+    "hard_negatives": "results/experiments/orl_hard_negative_proxy_seed_20260913/summary.json",
+    "lfw": "results/experiments/lfw_frozen_classifier_transfer_8_1_1/summary.json"
+  }
+}

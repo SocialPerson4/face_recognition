@@ -28,7 +28,8 @@
 - M7B LFW实验协议设计：已完成，冻结官方十折上的8/1/1身份隔离轮转评测
 - M7C LFW图像预处理与PCA距离迁移基线：已完成，平均EER 37.37%，严格门禁FNMR 92.80%
 - M7D LFW冻结分类器迁移对比：已完成，三类监督模型未稳定超过PCA距离
-- M7E LFW迁移失败诊断与错误案例分析：待开展
+- M7E 错误案例扩展：转为后续工作，不再扩展当前主实验
+- M8 最终研究综合与项目封板：已完成
 - Python 为唯一正式实现
 - MATLAB 和原课程报告不进入本仓库
 - 原始人脸图片不会提交 GitHub
@@ -70,6 +71,8 @@ python3 -m venv .venv
 .venv/bin/python scripts/plot_lfw_pca_distance_baseline.py
 .venv/bin/python scripts/run_lfw_frozen_classifier_transfer.py
 .venv/bin/python scripts/plot_lfw_frozen_classifier_transfer.py
+.venv/bin/python scripts/build_final_research_summary.py
+.venv/bin/python scripts/plot_final_research_summary.py
 .venv/bin/python -m pytest -q
 ```
 
@@ -80,5 +83,6 @@ ORL 数据应放在 `data/raw/orl/`，具体结构见 [data/README.md](data/READ
 - [Research plan](docs/research_plan.md)
 - [Research thinking and decisions](docs/research_thinking.md)
 - [Code and module guide](docs/code_guide.md)
+- [Final research summary](docs/final_research_summary.md)
 
 复试演讲词与个人准备统一保存在本机 `local/interview_prep.md`，该目录不会提交 GitHub。

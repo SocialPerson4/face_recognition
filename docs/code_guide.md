@@ -645,3 +645,15 @@ LFW配对解析已从实验脚本移动到 `lfw_protocol.py`，使协议审计�
 `lfw_frozen_model_comparison` 用均值和折间标准差比较EER，并并列展示低FMR工作点的FNMR；`lfw_paired_eer_differences` 以同折距离结果为0基线，展示三个分类器的EER增减，避免不同身份折难度干扰模型差值。
 
 新增摘要复现合同测试后，项目当前共47项测试通过。
+
+## 五十一 `scripts/build_final_research_summary.py`
+
+脚本读取ORL最终测试、ORL困难负样本代理和LFW冻结分类器迁移三份JSON。`build_summary(...)` 按同一模型名称提取三阶段指标，写入 `results/final/project_summary.json`，并固定项目封板状态、主要发现与声明边界。
+
+它不读取原始图片、不重新训练，也不重新计算阈值。总摘要中的每个性能数字都能追溯到已有冻结结果文件。
+
+## 五十二 `scripts/plot_final_research_summary.py`
+
+脚本从最终总摘要生成PNG/SVG三联图：ORL开发与最终EER、高相似代理普通/困难FMR、LFW十折EER均值与标准差。图底主动披露没有双胞胎标签和部署结论。
+
+新增测试确认总摘要同时保留三阶段证据与声明边界。项目封板时共48项测试通过。

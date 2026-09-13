@@ -13,7 +13,8 @@
 
 - M0 research protocol：已完成
 - M1 ORL data audit and pairing protocol：已完成
-- M2 ORL baseline metrics and distance model：待开展
+- M2 verification metrics：已完成
+- M3 ORL distance baseline：待开展
 - Python 为唯一正式实现
 - MATLAB 和原课程报告不进入本仓库
 - 原始人脸图片不会提交 GitHub
@@ -26,6 +27,7 @@ python3 -m venv .venv
 .venv/bin/python -m pip install -e ".[dev]"
 .venv/bin/python scripts/audit_orl.py
 .venv/bin/python scripts/build_orl_protocol.py
+.venv/bin/python scripts/check_metrics.py
 .venv/bin/python -m pytest -q
 ```
 

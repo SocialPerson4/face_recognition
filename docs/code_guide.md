@@ -190,3 +190,56 @@ CSV 每行保存图片下标、相对路径、两个身份和目标标签。使�
 - 划分请求的身份总数错误时主动报错。
 
 这些测试证明协议代码遵守了我们写下的规则，但仍不代表这个比例是世界上唯一正确的划分。后续多随机种子实验会检查结论是否过分依赖当前划分。
+
+## 十二 `src/face_verification/metrics.py`
+
+该模块规定所有候选模型共用的评价尺子。约定 `target=1` 表示同一人、`target=0` 表示不同人，分数越大越像同一人，`score >= threshold` 时系统接受。
+
+### `VerificationRates`
+
+保存一个阈值下的四种计数与派生指标：
+
+- `true_accepts`：实际同一人且正确接受。
+- `false_rejects`：实际同一人但错误拒绝。
+- `false_accepts`：实际不同人但错误接受。
+- `true_rejects`：实际不同人且正确拒绝。
+- `fmr`：错误接受数除以负样本数。
+- `fnmr`：错误拒绝数除以正样本数。
+- `true_accept_rate`：本人正确通过比例，等于 `1-FNMR`。
+- `accuracy`：全部配对中判断正确的比例。
+
+### `_validated_inputs(...)`
+
+统一检查标签和分数是否为一维、长度是否一致、分数是否有限，以及标签是否同时包含 0 和 1。它以下划线开头，表示仅供模块内部复用。提前拒绝 NaN、缺少某一类别等输入，可避免产生看似正常但实际无定义的指标。
+
+### `rates_at_threshold(...)`
+
+给定一个阈值，将每个分数转换为接受或拒绝，再数出四种结果并计算 FMR、FNMR、真正接受率和准确率。这是所有门禁工作点指标的基础。
+
+### `select_threshold_at_fmr(...)`
+
+枚举实际分数能够形成的候选阈值，只保留满足目标 FMR 的阈值，再优先选择 FNMR 最低者。若 FNMR 相同，优先 FMR 更低、阈值更严格者。默认目标为 1%，但必须使用验证数据选择，不能使用测试数据。
+
+### `equal_error_rate(...)`
+
+调用 scikit-learn 生成 ROC 工作点，找到 FMR 与 FNMR 穿越的位置并做线性插值。返回 EER 和对应阈值。插值表示真实交点可能位于两个离散分数阈值之间，因此结果是估计值而不是一定对应某条样本分数。
+
+### `roc_auc(...)`
+
+调用 scikit-learn 的 `roc_auc_score` 计算整体排序能力。输入必须是连续分数而不是提前截断后的 True/False，否则无法遍历阈值。
+
+## 十三 `scripts/check_metrics.py`
+
+使用四条人工合成配对检查指标，并保存 `results/audit/metric_sanity.json`。它包含完全分离和分数交叉两个例子，每个数都能人工核算。
+
+该脚本只证明指标实现符合示例，不证明任何人脸模型有效。输出文件中的 `artifact_type` 和 `warning` 明确阻止把它误当成 ORL 实验结果。
+
+运行命令：
+
+```bash
+.venv/bin/python scripts/check_metrics.py
+```
+
+## 十四 `tests/test_metrics.py`
+
+测试覆盖：完美阈值、一个错误接受、完全分离 EER/AUC、交叉分数 EER/AUC、目标 FMR 阈值选择，以及标签缺类、NaN 分数和非法目标 FMR。当前项目总测试数从 6 增加到 12。

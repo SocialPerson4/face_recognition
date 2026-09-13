@@ -2,6 +2,7 @@
 
 from .data import ORLDataset, load_orl, theoretical_pair_counts
 from .features import (
+    absolute_pair_differences,
     fit_pca,
     fit_pca_components,
     image_matrix,
@@ -38,6 +39,7 @@ __all__ = [
     "PairSet",
     "ThresholdSelection",
     "VerificationRates",
+    "absolute_pair_differences",
     "equal_error_rate",
     "fit_pca",
     "fit_pca_components",

@@ -17,7 +17,8 @@
 - M2B ORL distance baseline：已完成单次开发实验，最终测试集仍封存
 - M3A PCA 维数粗搜索：已完成，候选平台区为 80—180 维
 - M3B PCA 维数细搜索：已完成，距离基线按一标准误差规则选择 80 维
-- M3C 分类器比较与联合调参：待开展
+- M3C 固定维数模型家族初筛：已完成，默认学习模型出现明显过拟合
+- M3D 分类器超参数搜索与联合调参：待开展
 - Python 为唯一正式实现
 - MATLAB 和原课程报告不进入本仓库
 - 原始人脸图片不会提交 GitHub
@@ -36,6 +37,8 @@ python3 -m venv .venv
 .venv/bin/python scripts/search_orl_pca_k.py --stage fine --k-values 80 100 120 140 160 170 180 185 --output-dir results/experiments/orl_pca_k_fine_seed_20260913
 .venv/bin/python scripts/plot_pca_k_search.py
 .venv/bin/python scripts/plot_pca_k_fine_selection.py
+.venv/bin/python scripts/compare_orl_model_families.py
+.venv/bin/python scripts/plot_orl_model_screening.py
 .venv/bin/python -m pytest -q
 ```
 

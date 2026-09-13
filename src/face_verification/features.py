@@ -116,3 +116,29 @@ def negative_euclidean_pair_scores(
 
     distances = np.linalg.norm(matrix[left] - matrix[right], axis=1)
     return -distances
+
+
+def absolute_pair_differences(features: np.ndarray, pairs: PairSet) -> np.ndarray:
+    """Return order-invariant absolute feature differences for each pair."""
+
+    matrix = np.asarray(features)
+    if matrix.ndim != 2 or matrix.shape[0] < 2 or matrix.shape[1] < 1:
+        raise ValueError("features must be a non-empty two-dimensional matrix")
+    if not pairs.records:
+        raise ValueError("pairs must not be empty")
+
+    left = np.fromiter(
+        (record.left_index for record in pairs.records), dtype=np.int64
+    )
+    right = np.fromiter(
+        (record.right_index for record in pairs.records), dtype=np.int64
+    )
+    if min(int(left.min()), int(right.min())) < 0:
+        raise IndexError("pair index must not be negative")
+    if max(int(left.max()), int(right.max())) >= matrix.shape[0]:
+        raise IndexError("pair index is outside the feature matrix")
+    if not (
+        np.all(np.isfinite(matrix[left])) and np.all(np.isfinite(matrix[right]))
+    ):
+        raise ValueError("features selected by pairs must contain only finite values")
+    return np.abs(matrix[left] - matrix[right])

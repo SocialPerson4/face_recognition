@@ -3,6 +3,7 @@ import unittest
 import numpy as np
 
 from face_verification.features import (
+    absolute_pair_differences,
     fit_pca,
     fit_pca_components,
     image_matrix,
@@ -52,6 +53,18 @@ class ImageFeatureTests(unittest.TestCase):
         pairs = PairSet(records=(PairRecord(0, 1, 1),))
         np.testing.assert_allclose(
             negative_euclidean_pair_scores(features, pairs), [-1.0]
+        )
+
+    def test_absolute_pair_features_are_order_invariant(self) -> None:
+        features = np.array([[1.0, 5.0], [4.0, 2.0]])
+        forward = PairSet(records=(PairRecord(0, 1, 1),))
+        backward = PairSet(records=(PairRecord(1, 0, 1),))
+        np.testing.assert_allclose(
+            absolute_pair_differences(features, forward), [[3.0, 3.0]]
+        )
+        np.testing.assert_allclose(
+            absolute_pair_differences(features, forward),
+            absolute_pair_differences(features, backward),
         )
 
     def test_invalid_feature_inputs_are_rejected(self) -> None:

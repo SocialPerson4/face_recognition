@@ -1,6 +1,6 @@
 import pytest
 
-from scripts.run_lfw_pca_distance_baseline import aggregate, fold_roles
+from face_verification.lfw_experiment import aggregate, fold_roles
 
 
 def test_fold_roles_rotate_calibration_after_test() -> None:

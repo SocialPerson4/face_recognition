@@ -627,3 +627,21 @@ LFW配对解析已从实验脚本移动到 `lfw_protocol.py`，使协议审计�
 脚本只读取保存结果。`lfw_pca_distance_results` 展示十折EER、ORL对照和低FMR工作点错误；`lfw_threshold_margin_distribution` 将不同折分数减去各自校准阈值，使0统一表示接受边界，再展示同人与异人的分布交叠。
 
 新增测试覆盖LFW预处理尺寸检查、8/1/1折轮转、样本标准差和随机化PCA可复现性。项目当前共45项测试。
+
+## 四十八 `lfw_experiment.py`
+
+该共享模块从M7C脚本抽出 `fold_roles(...)`、`to_pair_set(...)`、`targets(...)` 和 `aggregate(...)`。距离与分类器实验因此共用完全相同的折轮转、协议配对转索引、标签生成和样本标准差计算。
+
+## 四十九 `scripts/run_lfw_frozen_classifier_transfer.py`
+
+脚本先验证ORL M4配置文件和LFW M7C距离结果文件的固定摘要。每折重新拟合一次80维PCA，并计算距离、逻辑回归、线性SVM和RBF-SVM；三个分类器的 `StandardScaler` 与分类边界只拟合8个训练折的4,800条绝对差特征。
+
+每个模型分别用校准折选阈值并对测试折评分。距离模型会与M7C对应折的EER、AUC和阈值作 `1e-12` 容差核对，防止新脚本产生不可比的距离基线。10轮模型只在内存中依次存在，不写入大型模型文件。
+
+输出 `summary.json`、40行 `fold_results.csv` 和6,000行宽表 `test_scores.csv`。摘要同时计算每个分类器相对距离的配对折EER差，以及好于、等于和差于距离的折数。
+
+## 五十 `scripts/plot_lfw_frozen_classifier_transfer.py`
+
+`lfw_frozen_model_comparison` 用均值和折间标准差比较EER，并并列展示低FMR工作点的FNMR；`lfw_paired_eer_differences` 以同折距离结果为0基线，展示三个分类器的EER增减，避免不同身份折难度干扰模型差值。
+
+新增摘要复现合同测试后，项目当前共47项测试通过。

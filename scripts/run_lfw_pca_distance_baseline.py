@@ -20,6 +20,7 @@ from face_verification.features import (
     negative_euclidean_pair_scores,
     transform_images,
 )
+from face_verification.lfw_experiment import aggregate, fold_roles, targets, to_pair_set
 from face_verification.lfw_protocol import ProtocolPair, parse_protocol
 from face_verification.metrics import (
     equal_error_rate,
@@ -27,7 +28,6 @@ from face_verification.metrics import (
     roc_auc,
     select_threshold_at_fmr,
 )
-from face_verification.protocol import PairRecord, PairSet
 
 
 PCA_COMPONENTS = 80
@@ -44,45 +44,6 @@ def parse_args() -> argparse.Namespace:
         default=Path("results/experiments/lfw_pca_distance_8_1_1"),
     )
     return parser.parse_args()
-
-
-def fold_roles(test_fold: int) -> tuple[tuple[int, ...], int, int]:
-    if test_fold not in range(1, 11):
-        raise ValueError("test_fold must lie between 1 and 10")
-    calibration_fold = test_fold % 10 + 1
-    train_folds = tuple(
-        fold for fold in range(1, 11) if fold not in {test_fold, calibration_fold}
-    )
-    return train_folds, calibration_fold, test_fold
-
-
-def to_pair_set(
-    pairs: list[ProtocolPair], image_index: dict[str, int]
-) -> PairSet:
-    return PairSet(
-        records=tuple(
-            PairRecord(
-                left_index=image_index[pair.left_image],
-                right_index=image_index[pair.right_image],
-                target=pair.target,
-            )
-            for pair in pairs
-        )
-    )
-
-
-def targets(pairs: PairSet) -> np.ndarray:
-    return np.fromiter((record.target for record in pairs.records), dtype=np.int64)
-
-
-def aggregate(values: list[float]) -> dict[str, float]:
-    array = np.asarray(values, dtype=np.float64)
-    return {
-        "mean": float(np.mean(array)),
-        "standard_deviation": float(np.std(array, ddof=1)),
-        "minimum": float(np.min(array)),
-        "maximum": float(np.max(array)),
-    }
 
 
 def main() -> None:

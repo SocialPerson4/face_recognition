@@ -25,7 +25,6 @@ data/
 
 ## LFW Funneled
 
-第三阶段使用。下载和实验协议记录在 `docs/research_thinking.md`，第一阶段不依赖该数据。
+第三阶段使用。标准文件名为 `lfw-funneled.tgz`，解压后的图片目录为 `lfw_funneled/`。本地审计确认包含 5,749 个身份和 13,233 张 `250 × 250` RGB JPEG；官方三份配对文件没有缺失引用。下载和实验协议记录在 `docs/research_thinking.md`。
 
 来源：http://vis-www.cs.umass.edu/lfw/
-

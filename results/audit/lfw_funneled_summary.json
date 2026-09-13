@@ -1,0 +1,136 @@
+{
+  "dataset": "Labeled Faces in the Wild, Funneled",
+  "audit_status": "passed",
+  "file_hashes": {
+    "lfw-funneled.tgz": {
+      "sha256": "b47c8422c8cded889dc5a13418c4bc2abbda121092b3533a83306f90d900100a",
+      "expected_sha256": "b47c8422c8cded889dc5a13418c4bc2abbda121092b3533a83306f90d900100a",
+      "matches_expected": true
+    },
+    "pairsDevTrain.txt": {
+      "sha256": "1d454dada7dfeca0e7eab6f65dc4e97a6312d44cf142207be28d688be92aabfa",
+      "expected_sha256": "1d454dada7dfeca0e7eab6f65dc4e97a6312d44cf142207be28d688be92aabfa",
+      "matches_expected": true
+    },
+    "pairsDevTest.txt": {
+      "sha256": "7cb06600ea8b2814ac26e946201cdb304296262aad67d046a16a7ec85d0ff87c",
+      "expected_sha256": "7cb06600ea8b2814ac26e946201cdb304296262aad67d046a16a7ec85d0ff87c",
+      "matches_expected": true
+    },
+    "pairs.txt": {
+      "sha256": "ea42330c62c92989f9d7c03237ed5d591365e89b3e649747777b70e692dc1592",
+      "expected_sha256": "ea42330c62c92989f9d7c03237ed5d591365e89b3e649747777b70e692dc1592",
+      "matches_expected": true
+    }
+  },
+  "num_identities": 5749,
+  "num_images": 13233,
+  "identity_image_count_distribution": {
+    "1": 4069,
+    "2": 779,
+    "3": 291,
+    "4": 187,
+    "5": 112,
+    "6": 55,
+    "7": 39,
+    "8": 33,
+    "9": 26,
+    "10": 15,
+    "11": 16,
+    "12": 10,
+    "13": 11,
+    "14": 10,
+    "15": 11,
+    "16": 3,
+    "17": 8,
+    "18": 5,
+    "19": 7,
+    "20": 5,
+    "21": 4,
+    "22": 5,
+    "23": 3,
+    "24": 3,
+    "25": 1,
+    "26": 2,
+    "27": 1,
+    "28": 2,
+    "29": 2,
+    "30": 2,
+    "31": 2,
+    "32": 3,
+    "33": 3,
+    "35": 1,
+    "36": 1,
+    "37": 1,
+    "39": 2,
+    "41": 2,
+    "42": 2,
+    "44": 1,
+    "48": 1,
+    "49": 1,
+    "52": 2,
+    "53": 1,
+    "55": 1,
+    "60": 1,
+    "71": 1,
+    "77": 1,
+    "109": 1,
+    "121": 1,
+    "144": 1,
+    "236": 1,
+    "530": 1
+  },
+  "single_image_identities": 4069,
+  "identities_with_at_least_two_images": 1680,
+  "maximum_images_for_one_identity": 530,
+  "identities_with_maximum_images": [
+    "George_W_Bush"
+  ],
+  "image_dimensions": {
+    "250x250": 13233
+  },
+  "image_modes": {
+    "RGB": 13233
+  },
+  "corrupt_images": [],
+  "official_pair_protocols": {
+    "pairsDevTrain.txt": {
+      "header": [
+        1100
+      ],
+      "folds": null,
+      "pairs_per_class_per_fold": null,
+      "pair_count": 2200,
+      "positive_pair_count": 1100,
+      "negative_pair_count": 1100,
+      "unique_referenced_image_count": 3443,
+      "missing_referenced_images": []
+    },
+    "pairsDevTest.txt": {
+      "header": [
+        500
+      ],
+      "folds": null,
+      "pairs_per_class_per_fold": null,
+      "pair_count": 1000,
+      "positive_pair_count": 500,
+      "negative_pair_count": 500,
+      "unique_referenced_image_count": 1549,
+      "missing_referenced_images": []
+    },
+    "pairs.txt": {
+      "header": [
+        10,
+        300
+      ],
+      "folds": 10,
+      "pairs_per_class_per_fold": 300,
+      "pair_count": 6000,
+      "positive_pair_count": 3000,
+      "negative_pair_count": 3000,
+      "unique_referenced_image_count": 7701,
+      "missing_referenced_images": []
+    }
+  },
+  "note": "This audit validates data only; it does not fit or evaluate a model."
+}

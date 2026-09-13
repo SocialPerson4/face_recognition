@@ -581,3 +581,13 @@ PYTHONPATH=src .venv/bin/python scripts/search_orl_classifier_hyperparameters.py
 - `hard_negative_score_distributions`：四模型两组分数及冻结阈值，展示困难分布向接受区域移动。
 
 `tests/test_hard_negatives.py` 检查28个身份对确实取7个，以及身份对展开数量正确。项目当前共35项测试通过。
+
+## 四十二 `scripts/audit_lfw.py`
+
+该脚本审核本地LFW Funneled数据，不训练模型。`sha256_file(...)` 流式读取四个下载文件并与固定SHA-256比较，避免把损坏或不同版本的数据带入实验。
+
+主程序遍历5,749个身份目录，使用Pillow的 `Image.verify()` 验证全部13,233张JPEG，同时统计尺寸、颜色模式、身份图片数分布和损坏清单。这里的 `verify` 只检查文件能否正确解码，不对人脸内容作人工判断。
+
+`audit_pair_protocol(...)` 支持LFW两种头部格式：开发文件的一列表示每类配对数，正式协议的两列表示折数和每折每类配对数。三列记录被解释为同人正配对，四列记录被解释为异人负配对；程序将身份名和序号还原成四位文件名并检查引用存在。
+
+结果写入 `results/audit/lfw_funneled_summary.json`。测试覆盖四位文件名还原及正负配对解析。项目当前共37项测试。

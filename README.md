@@ -12,7 +12,7 @@
 ## Current status
 
 - M0 research protocol：已完成
-- M1 ORL data audit and pairing protocol：进行中
+- M1 ORL data audit and pairing protocol：数据审计已完成，配对协议待实现
 - Python 为唯一正式实现
 - MATLAB 和原课程报告不进入本仓库
 - 原始人脸图片不会提交 GitHub

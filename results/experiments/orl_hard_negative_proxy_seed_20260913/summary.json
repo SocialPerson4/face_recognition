@@ -1,0 +1,134 @@
+{
+  "artifact_type": "ORL post-test identity-level hard-negative proxy analysis",
+  "analysis_status": "post-test exploratory; cannot modify M5 conclusions",
+  "data_scope": "outer validation identities only",
+  "selection_proxy": "Euclidean distance between identity mean PCA embeddings",
+  "selection_bias_disclosure": "hard groups are selected in PCA space, so this is a directed stress test, not an unbiased model-family comparison",
+  "twin_label_status": "ORL has no twin or kinship labels",
+  "hard_identity_fraction": 0.25,
+  "identity_pair_count": 28,
+  "hard_identity_pair_count": 7,
+  "ordinary_identity_pair_count": 21,
+  "ordinary_sampling_seed": 20261414,
+  "pairs_per_group": 700,
+  "hard_identity_pairs": [
+    [
+      4,
+      9
+    ],
+    [
+      4,
+      17
+    ],
+    [
+      9,
+      17
+    ],
+    [
+      9,
+      21
+    ],
+    [
+      9,
+      38
+    ],
+    [
+      20,
+      21
+    ],
+    [
+      28,
+      37
+    ]
+  ],
+  "model_results": [
+    {
+      "model": "pca_distance",
+      "frozen_threshold": -10.302075978023312,
+      "groups": {
+        "ordinary": {
+          "pair_count": 700,
+          "false_accept_count": 1,
+          "false_match_rate": 0.0014285714285714286,
+          "median_score": -18.44546679370184,
+          "score_90th_percentile": -13.705663343265446
+        },
+        "hard_identity_proxy": {
+          "pair_count": 700,
+          "false_accept_count": 41,
+          "false_match_rate": 0.05857142857142857,
+          "median_score": -13.368629604379295,
+          "score_90th_percentile": -10.940047085625928
+        }
+      },
+      "hard_to_ordinary_fmr_multiplier": 41.0,
+      "hard_minus_ordinary_fmr": 0.05714285714285714
+    },
+    {
+      "model": "logistic_regression",
+      "frozen_threshold": 0.03421088514797889,
+      "groups": {
+        "ordinary": {
+          "pair_count": 700,
+          "false_accept_count": 4,
+          "false_match_rate": 0.005714285714285714,
+          "median_score": -0.00588029035901857,
+          "score_90th_percentile": 0.013871765389635733
+        },
+        "hard_identity_proxy": {
+          "pair_count": 700,
+          "false_accept_count": 48,
+          "false_match_rate": 0.06857142857142857,
+          "median_score": 0.012631943408602445,
+          "score_90th_percentile": 0.030428482550615168
+        }
+      },
+      "hard_to_ordinary_fmr_multiplier": 12.0,
+      "hard_minus_ordinary_fmr": 0.06285714285714286
+    },
+    {
+      "model": "linear_svm",
+      "frozen_threshold": 0.04786890239655568,
+      "groups": {
+        "ordinary": {
+          "pair_count": 700,
+          "false_accept_count": 4,
+          "false_match_rate": 0.005714285714285714,
+          "median_score": -0.03422005321656928,
+          "score_90th_percentile": 0.0060727265194845115
+        },
+        "hard_identity_proxy": {
+          "pair_count": 700,
+          "false_accept_count": 48,
+          "false_match_rate": 0.06857142857142857,
+          "median_score": 0.003493515742008369,
+          "score_90th_percentile": 0.03979307357136079
+        }
+      },
+      "hard_to_ordinary_fmr_multiplier": 12.0,
+      "hard_minus_ordinary_fmr": 0.06285714285714286
+    },
+    {
+      "model": "rbf_svm",
+      "frozen_threshold": 0.008706813146976893,
+      "groups": {
+        "ordinary": {
+          "pair_count": 700,
+          "false_accept_count": 3,
+          "false_match_rate": 0.004285714285714286,
+          "median_score": -0.006418422218344341,
+          "score_90th_percentile": 0.0008047267061118665
+        },
+        "hard_identity_proxy": {
+          "pair_count": 700,
+          "false_accept_count": 41,
+          "false_match_rate": 0.05857142857142857,
+          "median_score": 0.0003349791228300482,
+          "score_90th_percentile": 0.006882939559003374
+        }
+      },
+      "hard_to_ordinary_fmr_multiplier": 13.666666666666666,
+      "hard_minus_ordinary_fmr": 0.054285714285714284
+    }
+  ]
+}

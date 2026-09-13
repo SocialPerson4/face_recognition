@@ -559,3 +559,25 @@ PYTHONPATH=src .venv/bin/python scripts/search_orl_classifier_hyperparameters.py
 脚本只读取已保存的最终JSON和CSV，生成两组PNG/SVG。`final_test_comparison` 比较验证与测试EER，并展示固定阈值下的测试FMR/FNMR；`final_test_roc` 展示完整ROC、低FMR局部和验证阈值对应的测试工作点。
 
 圆点由冻结阈值产生，不是根据测试曲线重新挑选。新增摘要哈希合同测试后，项目当前共33项测试通过。
+
+## 四十 `scripts/analyze_orl_hard_negatives.py`
+
+该脚本执行M6测试后风险分析，不改变M5模型和结论。它仍只用24个训练身份拟合80维PCA及分类器，再把8个开发验证身份各自10张图片的PCA向量求平均，形成身份中心。
+
+`rank_identity_pairs(...)` 枚举8个身份的28种组合，按中心欧氏距离从小到大排序，并将最近四分之一的7对标成困难身份对。`pair_records_for_identity_pairs(...)` 把每个身份对展开为 `10×10=100` 条图片配对。困难组保留全部700条，普通组从剩余2100条中固定种子无放回抽取700条。
+
+`score_groups(...)` 让两组通过同一套冻结模型。最终按M4冻结阈值统计错误接受数、FMR、分数中位数和90%分位数。模型只在程序运行时存在；结果持久化为：
+
+- `summary.json`：规则、7个困难身份对及四模型汇总指标。
+- `identity_pair_ranking.csv`：28个身份对的距离、排名和困难标记。
+- `negative_scores.csv`：1400条配对的身份、四模型分数和接受结果。
+
+## 四十一 `scripts/plot_orl_hard_negatives.py`
+
+脚本只读取M6保存的JSON/CSV，不重新训练，生成三组PNG/SVG：
+
+- `hard_negative_fmr_risk`：普通组与困难组的FMR、风险倍数。
+- `identity_similarity_matrix`：身份中心距离矩阵，红框标出最近7对。
+- `hard_negative_score_distributions`：四模型两组分数及冻结阈值，展示困难分布向接受区域移动。
+
+`tests/test_hard_negatives.py` 检查28个身份对确实取7个，以及身份对展开数量正确。项目当前共35项测试通过。

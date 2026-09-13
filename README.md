@@ -23,7 +23,8 @@
 - M3F 更低C哨兵确认：已完成，未发现稳定实质改善，候选参数已冻结
 - M4 冻结候选开发验证：已完成，RBF按EER-AUC规则成为开发候选，距离在低FMR工作点更优
 - M5 一次性最终测试：已完成，PCA距离在冻结测试中领先，ORL主实验已封板
-- M6 高相似困难负样本代理分析：待开展
+- M6 高相似困难负样本代理分析：已完成，困难组FMR较普通组放大12—41倍
+- M7 LFW Funneled第二数据集准备与审计：待开展
 - Python 为唯一正式实现
 - MATLAB 和原课程报告不进入本仓库
 - 原始人脸图片不会提交 GitHub
@@ -56,6 +57,8 @@ python3 -m venv .venv
 .venv/bin/python scripts/plot_orl_frozen_validation.py
 .venv/bin/python scripts/run_orl_final_test.py
 .venv/bin/python scripts/plot_orl_final_test.py
+.venv/bin/python scripts/analyze_orl_hard_negatives.py
+.venv/bin/python scripts/plot_orl_hard_negatives.py
 .venv/bin/python -m pytest -q
 ```
 

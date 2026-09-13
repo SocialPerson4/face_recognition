@@ -45,6 +45,21 @@ def fit_pca(
     return model
 
 
+def fit_pca_components(train_images: np.ndarray, *, n_components: int) -> PCA:
+    """Fit a fixed number of PCA components on explicitly supplied images."""
+
+    if isinstance(n_components, bool) or not isinstance(n_components, (int, np.integer)):
+        raise TypeError("n_components must be an integer")
+    train_matrix = image_matrix(train_images)
+    maximum = min(train_matrix.shape)
+    if not 1 <= int(n_components) <= maximum:
+        raise ValueError(f"n_components must lie between 1 and {maximum}")
+
+    model = PCA(n_components=int(n_components), svd_solver="full")
+    model.fit(train_matrix)
+    return model
+
+
 def transform_images(model: PCA, images: np.ndarray) -> np.ndarray:
     """Project images into an already fitted PCA coordinate system."""
 

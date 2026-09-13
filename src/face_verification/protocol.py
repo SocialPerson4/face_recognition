@@ -44,6 +44,16 @@ class PairSet:
         return sum(record.target == 0 for record in self.records)
 
 
+@dataclass(frozen=True)
+class IdentityFold:
+    """One identity-disjoint train/validation fold within selected images."""
+
+    train_indices: tuple[int, ...]
+    validation_indices: tuple[int, ...]
+    train_identities: tuple[int, ...]
+    validation_identities: tuple[int, ...]
+
+
 def split_by_identity(
     labels: np.ndarray,
     *,
@@ -147,3 +157,56 @@ def make_balanced_pairs(
     )
     permutation = rng.permutation(len(records))
     return PairSet(records=tuple(records[int(position)] for position in permutation))
+
+
+def make_identity_folds(
+    labels: np.ndarray,
+    indices: tuple[int, ...],
+    *,
+    n_splits: int = 5,
+    seed: int = 20261114,
+) -> tuple[IdentityFold, ...]:
+    """Build reproducible folds without sharing identities across fold sides."""
+
+    labels = np.asarray(labels)
+    if labels.ndim != 1:
+        raise ValueError("labels must be a one-dimensional array")
+
+    selected = tuple(sorted(set(int(index) for index in indices)))
+    if not selected:
+        raise ValueError("indices must not be empty")
+    if selected[0] < 0 or selected[-1] >= len(labels):
+        raise IndexError("fold index is outside the labels array")
+
+    identities = np.unique(labels[list(selected)])
+    if n_splits < 2 or n_splits > len(identities):
+        raise ValueError("n_splits must lie between 2 and the number of identities")
+
+    shuffled = identities.copy()
+    np.random.default_rng(seed).shuffle(shuffled)
+    validation_groups = np.array_split(shuffled, n_splits)
+    folds: list[IdentityFold] = []
+    for validation_group in validation_groups:
+        validation_ids = np.sort(validation_group)
+        train_ids = np.sort(
+            np.asarray(
+                [identity for identity in shuffled if identity not in validation_ids]
+            )
+        )
+
+        def indices_for(group: np.ndarray) -> tuple[int, ...]:
+            return tuple(
+                index
+                for index in selected
+                if bool(np.isin(labels[index], group))
+            )
+
+        folds.append(
+            IdentityFold(
+                train_indices=indices_for(train_ids),
+                validation_indices=indices_for(validation_ids),
+                train_identities=tuple(int(value) for value in train_ids),
+                validation_identities=tuple(int(value) for value in validation_ids),
+            )
+        )
+    return tuple(folds)

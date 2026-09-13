@@ -2,7 +2,11 @@ import unittest
 
 import numpy as np
 
-from face_verification.protocol import make_balanced_pairs, split_by_identity
+from face_verification.protocol import (
+    make_balanced_pairs,
+    make_identity_folds,
+    split_by_identity,
+)
 
 
 class IdentitySplitTests(unittest.TestCase):
@@ -107,6 +111,45 @@ class BalancedPairTests(unittest.TestCase):
             self.labels, self.split.validation_indices, seed=20261015
         )
         self.assertEqual(first, second)
+
+
+class IdentityFoldTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.labels = np.repeat(np.arange(1, 41), 10)
+        self.outer = split_by_identity(self.labels, seed=20260913)
+
+    def test_folds_are_reproducible_disjoint_and_cover_each_identity_once(self) -> None:
+        first = make_identity_folds(
+            self.labels, self.outer.train_indices, n_splits=5, seed=20261114
+        )
+        second = make_identity_folds(
+            self.labels, self.outer.train_indices, n_splits=5, seed=20261114
+        )
+        self.assertEqual(first, second)
+        self.assertEqual(sorted(len(fold.validation_identities) for fold in first), [4, 5, 5, 5, 5])
+
+        seen_validation_identities: list[int] = []
+        for fold in first:
+            self.assertTrue(
+                set(fold.train_identities).isdisjoint(fold.validation_identities)
+            )
+            self.assertTrue(
+                set(fold.train_indices).isdisjoint(fold.validation_indices)
+            )
+            self.assertEqual(
+                set(fold.train_indices) | set(fold.validation_indices),
+                set(self.outer.train_indices),
+            )
+            seen_validation_identities.extend(fold.validation_identities)
+        self.assertEqual(
+            sorted(seen_validation_identities), sorted(self.outer.train_identities)
+        )
+
+    def test_invalid_fold_count_is_rejected(self) -> None:
+        with self.assertRaises(ValueError):
+            make_identity_folds(
+                self.labels, self.outer.train_indices, n_splits=1, seed=20261114
+            )
 
 
 if __name__ == "__main__":

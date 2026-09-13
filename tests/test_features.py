@@ -4,6 +4,7 @@ import numpy as np
 
 from face_verification.features import (
     fit_pca,
+    fit_pca_components,
     image_matrix,
     negative_euclidean_pair_scores,
     transform_images,
@@ -58,6 +59,8 @@ class ImageFeatureTests(unittest.TestCase):
             image_matrix(np.array([1.0, 2.0]))
         with self.assertRaises(ValueError):
             fit_pca(np.ones((3, 2)), retained_variance=0.0)
+        with self.assertRaises(ValueError):
+            fit_pca_components(np.ones((3, 2)), n_components=4)
 
 
 if __name__ == "__main__":

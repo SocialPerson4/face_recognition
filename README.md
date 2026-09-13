@@ -15,7 +15,8 @@
 - M1 ORL data audit and pairing protocol：已完成
 - M2A verification metrics：已完成
 - M2B ORL distance baseline：已完成单次开发实验，最终测试集仍封存
-- M3 PCA/SVM 参数搜索：待开展
+- M3A PCA 维数粗搜索：已完成，候选平台区为 80—180 维
+- M3B PCA 维数细搜索与分类器比较：待开展
 - Python 为唯一正式实现
 - MATLAB 和原课程报告不进入本仓库
 - 原始人脸图片不会提交 GitHub
@@ -30,6 +31,8 @@ python3 -m venv .venv
 .venv/bin/python scripts/build_orl_protocol.py
 .venv/bin/python scripts/check_metrics.py
 .venv/bin/python scripts/run_orl_distance_baselines.py
+.venv/bin/python scripts/search_orl_pca_k.py
+.venv/bin/python scripts/plot_pca_k_search.py
 .venv/bin/python -m pytest -q
 ```
 

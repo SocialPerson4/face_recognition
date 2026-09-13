@@ -3,6 +3,7 @@
 from .data import ORLDataset, load_orl, theoretical_pair_counts
 from .features import (
     fit_pca,
+    fit_pca_components,
     image_matrix,
     negative_euclidean_pair_scores,
     transform_images,
@@ -16,11 +17,20 @@ from .metrics import (
     roc_auc,
     select_threshold_at_fmr,
 )
-from .protocol import DatasetSplit, PairRecord, PairSet, make_balanced_pairs, split_by_identity
+from .protocol import (
+    DatasetSplit,
+    IdentityFold,
+    PairRecord,
+    PairSet,
+    make_balanced_pairs,
+    make_identity_folds,
+    split_by_identity,
+)
 
 __all__ = [
     "DatasetSplit",
     "EERResult",
+    "IdentityFold",
     "ORLDataset",
     "PairRecord",
     "PairSet",
@@ -28,9 +38,11 @@ __all__ = [
     "VerificationRates",
     "equal_error_rate",
     "fit_pca",
+    "fit_pca_components",
     "image_matrix",
     "load_orl",
     "make_balanced_pairs",
+    "make_identity_folds",
     "negative_euclidean_pair_scores",
     "rates_at_threshold",
     "roc_auc",

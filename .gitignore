@@ -17,6 +17,7 @@ data/restricted/
 # Temporary experiment artifacts.
 results/tmp/
 reports/build/
+.pptx-build/
 
 # Private interview notes and stage speeches stay on this computer.
 local/
